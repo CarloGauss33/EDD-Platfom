@@ -1,4 +1,5 @@
 class Course < ApplicationRecord
+  has_many :course_classes, dependent: :destroy
   validates :name, presence: true
   validates :code, presence: true
   validates :year,
@@ -43,7 +44,7 @@ end
 #  code                :string
 #  description         :string
 #  status              :integer          default("active")
-#  season              :integer          default("first")
+#  season              :integer          default("first_semester")
 #  year                :integer          default(2023)
 #  administrator_email :string
 #  created_at          :datetime         not null
