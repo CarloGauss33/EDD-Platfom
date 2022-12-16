@@ -1,0 +1,119 @@
+{
+  "name": "app",
+  "private": true,
+  "dependencies": {
+    "@activeadmin/activeadmin": "^2.13.1",
+    "@babel/core": "7",
+    "@babel/plugin-transform-runtime": "7",
+    "@babel/preset-env": "7",
+    "@babel/runtime": "7",
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "@types/humps": "^2.0.2",
+    "@types/node": "^18.11.15",
+    "@types/tailwindcss": "^3.1.0",
+    "activeadmin_addons": "^1.0.0",
+    "arctic_admin": "^4.0.2",
+    "autoprefixer": "^10",
+    "axios": "^1.2.1",
+    "babel-loader": "8",
+    "babel-preset-typescript-vue3": "^2.0.17",
+    "compression-webpack-plugin": "9",
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^4.2.2",
+    "eslint-plugin-tailwindcss": "^3.7.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.14",
+    "humps": "^2.0.1",
+    "mini-css-extract-plugin": "^2.7.2",
+    "postcss": "^8",
+    "postcss-loader": "^7.0.2",
+    "sass": "^1.56.2",
+    "sass-loader": "^13.2.0",
+    "shakapacker": "6.2.1",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3",
+    "terser-webpack-plugin": "5",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "vue": "^3.2.33",
+    "vue-loader": "^16.8.3",
+    "webpack": "5",
+    "webpack-assets-manifest": "5",
+    "webpack-cli": "4",
+    "webpack-merge": "5"
+  },
+  "version": "0.1.0",
+  "babel": {
+    "presets": [
+      "./node_modules/shakapacker/package/babel/preset.js"
+    ]
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "devDependencies": {
+    "@types/jest": "^28.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "@vue/test-utils": "^2.0.2",
+    "@vue/vue3-jest": "^28.0.1",
+    "babel-jest": "^28.0.1",
+    "eslint": "^8.29.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.7",
+    "eslint-plugin-platanus": "^0.1.0",
+    "eslint-plugin-vue": "^9.8.0",
+    "jest": "^28.0.1",
+    "jest-environment-jsdom": "^28.0.1",
+    "jest-text-formatter": "1.0.2",
+    "stylelint": "^14.16.0",
+    "ts-jest": "^28.0.1",
+    "vue-tsc": "^1.0.13",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:changes": "jest --changedSince=master"
+  },
+  "jest": {
+    "roots": [
+      "app/javascript"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "app/javascript/$1"
+    },
+    "testEnvironmentOptions": {
+      "customExportConditions": [
+        "node",
+        "node-addons"
+      ]
+    },
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest",
+      ".*\\.(vue)$": "@vue/vue3-jest"
+    },
+    "testEnvironment": "jsdom",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,ts,vue}",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": [
+      "text"
+    ]
+  }
+}

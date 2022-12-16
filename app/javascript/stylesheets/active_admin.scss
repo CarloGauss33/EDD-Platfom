@@ -1,0 +1,54 @@
+@import 'activeadmin_addons/src/stylesheets/all';
+// Sass variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+@import '~arctic_admin/src/scss/main';
+
+// Fix for sidebar when there are too many filters
+#sidebar {
+  height: 100vh;
+  top: 0;
+  z-index: 10;
+}
+
+#sidebar::before {
+  top: 200px !important;
+}
+
+#filters_sidebar_section {
+  height: 100vh;
+  overflow: auto;
+}
+
+// Fix for invisible datepicker calendar
+#ui-datepicker-div {
+  z-index: 11 !important;
+}
+
+// Fix for backwards date range input
+#sidebar .sidebar_section .filter_date_range input:nth-child(2) {
+  float: none;
+}
+
+#sidebar .sidebar_section .filter_date_range {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between
+}
+
+#sidebar .sidebar_section .filter_date_range label {
+  width: 100%;
+}
+
+
+// Overriding any non-variable Sass must be done after the fact.
+// For example, to change the default status-tag color:
+//
+//   .status_tag { background: #6090DB; }
