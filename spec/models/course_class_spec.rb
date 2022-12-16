@@ -17,5 +17,15 @@ RSpec.describe CourseClass, type: :model do
 
   describe "Associations" do
     it { is_expected.to belong_to(:course) }
+
+    describe "has_many_through" do
+      let(:course_class) { create(:course_class) }
+
+      it "has many students" do
+        create_list(:student, 3, course_class: course_class)
+
+        expect(course_class.students.count).to eq(3)
+      end
+    end
   end
 end
