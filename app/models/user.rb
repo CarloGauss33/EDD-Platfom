@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :students, dependent: :destroy
+  has_many :course_classes, through: :students
+
   def first_name
     names.split(" ").first
   end

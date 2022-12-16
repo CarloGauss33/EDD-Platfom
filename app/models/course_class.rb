@@ -1,6 +1,9 @@
 class CourseClass < ApplicationRecord
   belongs_to :course
 
+  has_many :students
+  has_many :users, through: :students
+
   validates :section, uniqueness: { scope: :course_id }
 end
 
