@@ -1,5 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'Factory' do
+    it 'has a valid factory' do
+      expect(create(:user)).to be_valid
+    end
+  end
+
+  describe 'Validations' do
+    it 'is invalid without mail' do
+      expect(build(:user, email: nil)).not_to be_valid
+    end
+  end
+
+  describe 'Methods' do
+    describe '.full_name' do
+      it 'returns the full name of the user' do
+        user = create(:user, names: 'John Joe', last_names: 'Doe Dae')
+        expect(user.full_name).to eq('John Joe Doe Dae')
+      end
+    end
+
+    describe '.first_name' do
+      it 'returns the first name of the user' do
+        user = create(:user, names: 'John Joe')
+        expect(user.first_name).to eq('John')
+      end
+    end
+  end
 end

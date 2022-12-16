@@ -1,5 +1,6 @@
 ENV['RACK_ENV'] ||= 'test'
 require 'simplecov_config'
+require 'faker'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'spec_helper'

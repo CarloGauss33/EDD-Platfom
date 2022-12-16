@@ -3,6 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def first_name
+    names.split(" ").first
+  end
+
+  def full_name
+    "#{names} #{last_names}"
+  end
 end
 
 # == Schema Information
@@ -17,6 +25,13 @@ end
 #  remember_created_at    :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  names                  :string
+#  last_names             :string
+#  status                 :integer          default(0)
+#  canvas_user_id         :string
+#  university_id          :string
+#  rut                    :string
+#  github_username        :string
 #
 # Indexes
 #
