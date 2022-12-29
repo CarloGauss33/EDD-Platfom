@@ -10,6 +10,12 @@ RSpec.describe AssignmentResponse, type: :model do
     end
   end
 
+  describe 'Associations' do
+    it { is_expected.to belong_to(:assignment) }
+    it { is_expected.to belong_to(:student) }
+    it { is_expected.to have_many(:assignment_response_documents) }
+  end
+
   describe 'Validations' do
     it 'validates presence of assignment' do
       expect(build(:assignment_response, assignment: nil)).not_to be_valid

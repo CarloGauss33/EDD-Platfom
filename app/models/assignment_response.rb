@@ -2,6 +2,8 @@ class AssignmentResponse < ApplicationRecord
   belongs_to :assignment
   belongs_to :student
 
+  has_many :assignment_response_documents, dependent: :destroy
+
   enum status: {
     pending: 0,
     submitted: 1,
