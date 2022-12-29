@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_16_025106) do
+ActiveRecord::Schema.define(version: 2022_12_16_030212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,24 @@ ActiveRecord::Schema.define(version: 2022_12_16_025106) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.string "name"
+    t.string "description"
+    t.float "weight"
+    t.string "assignment_url"
+    t.string "assignment_solution_url"
+    t.integer "status", default: 0
+    t.integer "kind", default: 0
+    t.integer "number_of_questions"
+    t.boolean "responses_required"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_assignments_on_course_id"
   end
 
   create_table "course_classes", force: :cascade do |t|
@@ -94,6 +112,7 @@ ActiveRecord::Schema.define(version: 2022_12_16_025106) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "assignments", "courses"
   add_foreign_key "course_classes", "courses"
   add_foreign_key "students", "course_classes"
   add_foreign_key "students", "users"
