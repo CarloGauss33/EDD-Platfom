@@ -4,6 +4,8 @@ class CourseClass < ApplicationRecord
   has_many :students
   has_many :users, through: :students
 
+  delegate :name, to: :course
+
   validates :section, uniqueness: { scope: :course_id }
 end
 

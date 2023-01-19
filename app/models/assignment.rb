@@ -3,7 +3,10 @@ class Assignment < ApplicationRecord
   before_save :set_end_date_on_completed
 
   has_many :assignment_questions, dependent: :destroy
+  accepts_nested_attributes_for :assignment_questions, allow_destroy: true
+
   belongs_to :course
+  has_many :assignment_responses, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { scope: :course_id }
   validate :unique_active_exam_on_course?
