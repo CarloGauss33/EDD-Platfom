@@ -5,6 +5,12 @@ class Student < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :course_class_id }
 
+  delegate :email, to: :user
+  delegate :rut, to: :user
+  delegate :github_username, to: :user
+  delegate :full_name, to: :user
+  delegate :section, to: :course_class
+
   enum status: { active: 0, inactive: 1, dropped: 2, completed: 3 }
 end
 
