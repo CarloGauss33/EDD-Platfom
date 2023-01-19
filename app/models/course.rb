@@ -1,6 +1,7 @@
 class Course < ApplicationRecord
   has_many :course_classes, dependent: :destroy
   has_many :assignments, dependent: :destroy
+  has_many :students, through: :course_classes
 
   validates :name, presence: true
   validates :code, presence: true
