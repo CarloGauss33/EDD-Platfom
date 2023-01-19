@@ -3,6 +3,7 @@ class AssignmentResponse < ApplicationRecord
   belongs_to :student
 
   has_many :assignment_response_documents, dependent: :destroy
+  accepts_nested_attributes_for :assignment_response_documents, allow_destroy: true
 
   enum status: {
     pending: 0,
