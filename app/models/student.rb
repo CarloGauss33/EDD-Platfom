@@ -11,6 +11,13 @@ class Student < ApplicationRecord
   delegate :full_name, to: :user
   delegate :section, to: :course_class
 
+  scope :by_user, ->(user) { where(user: user) }
+  scope :by_course, ->(course) { joins(:course_class).where(course_classes: { course: course }) }
+
+  def self.by_course_and_user(course, user)
+    by_course(course).by_user(user).first
+  end
+
   enum status: { active: 0, inactive: 1, dropped: 2, completed: 3 }
 end
 

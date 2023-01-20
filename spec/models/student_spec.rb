@@ -20,6 +20,40 @@ RSpec.describe Student, type: :model do
     end
   end
 
+  describe 'Scopes' do
+    let(:course_class) { create(:course_class) }
+    let(:user) { create(:user) }
+    let!(:student) { create(:student, user: user, course_class: course_class) }
+
+    describe '#by_user' do
+      it 'returns the student by user' do
+        expect(described_class.by_user(user)).to eq([student])
+      end
+
+      it 'returns nil if no student is found' do
+        expect(described_class.by_user(create(:user))).to eq([])
+      end
+    end
+
+    describe '#by_course' do
+      it 'returns the student by course' do
+        expect(described_class.by_course(course_class.course)).to eq([student])
+      end
+    end
+  end
+
+  describe 'Class Methods' do
+    let(:course_class) { create(:course_class) }
+    let(:user) { create(:user) }
+    let!(:student) { create(:student, user: user, course_class: course_class) }
+
+    describe '#by_course_and_user' do
+      it 'returns the student by course and user' do
+        expect(described_class.by_course_and_user(course_class.course, user)).to eq(student)
+      end
+    end
+  end
+
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:course_class) }
