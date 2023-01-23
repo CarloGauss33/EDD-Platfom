@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :course_class
   belongs_to :user
+  has_many :assignment_responses, dependent: :destroy
 
   validates :user_id, uniqueness: { scope: :course_class_id }
 
