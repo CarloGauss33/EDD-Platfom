@@ -2,6 +2,7 @@ class Assignment < ApplicationRecord
   before_save :set_start_date_on_active
   before_save :set_end_date_on_completed
 
+  has_many :assignment_questions, dependent: :destroy
   belongs_to :course
 
   validates :name, presence: true, uniqueness: { scope: :course_id }
