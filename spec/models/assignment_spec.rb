@@ -47,5 +47,15 @@ RSpec.describe Assignment, type: :model do
         expect(assignment.end_date).to be_present
       end
     end
+
+    describe 'after_create_commit' do
+      let!(:student) { create(:student) }
+      let(:course) { student.course }
+
+      it 'creates assignment response for each student' do
+        assignment = create(:assignment, course: course)
+        expect(assignment.assignment_responses.count).to eq(course.students.count)
+      end
+    end
   end
 end

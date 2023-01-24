@@ -1,6 +1,7 @@
 class Assignment < ApplicationRecord
   before_save :set_start_date_on_active
   before_save :set_end_date_on_completed
+  after_create_commit :create_assignment_responses
 
   has_many :assignment_questions, dependent: :destroy
   accepts_nested_attributes_for :assignment_questions, allow_destroy: true
@@ -44,6 +45,12 @@ class Assignment < ApplicationRecord
     return unless completed? && end_date.nil?
 
     self.end_date = Time.zone.now
+  end
+
+  def create_assignment_responses
+    course.students.each do |student|
+      assignment_responses.create(student: student)
+    end
   end
 end
 
