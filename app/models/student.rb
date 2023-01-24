@@ -10,6 +10,7 @@ class Student < ApplicationRecord
   delegate :github_username, to: :user
   delegate :full_name, to: :user
   delegate :section, to: :course_class
+  delegate :course, to: :course_class
 
   scope :by_user, ->(user) { where(user: user) }
   scope :by_course, ->(course) { joins(:course_class).where(course_classes: { course: course }) }
