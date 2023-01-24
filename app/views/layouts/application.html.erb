@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600;700&family=M+PLUS+1:wght@400;500;700&display=swap" rel="stylesheet">
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag "application" %>
-  
+
     <%= stylesheet_pack_tag 'application' %>
   </head>
 
-  <body>
+  <body class="bg-white text-slate-700 font-body">
     <div id="vue-app">
-      <app></app>
       <%= yield %>
     </div>
   </body>
