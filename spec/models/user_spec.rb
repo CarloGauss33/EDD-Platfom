@@ -27,6 +27,14 @@ RSpec.describe User, type: :model do
         expect(user.first_name).to eq('John')
       end
     end
+
+    describe '.username' do
+      it 'returns the username of the user' do
+        user = create(:user, email: 'test@example.com')
+
+        expect(user.username).to eq('test')
+      end
+    end
   end
 
   describe 'Associations' do

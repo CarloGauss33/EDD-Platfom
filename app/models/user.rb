@@ -14,6 +14,10 @@ class User < ApplicationRecord
   def full_name
     "#{names} #{last_names}"
   end
+
+  def username
+    email.split("@").first
+  end
 end
 
 # == Schema Information
