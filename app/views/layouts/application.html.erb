@@ -12,13 +12,15 @@
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag "application" %>
-
     <%= stylesheet_pack_tag 'application' %>
   </head>
-
-  <body class="bg-white text-slate-700 font-body">
-    <div id="vue-app">
+  <body class="bg-gradient-to-r from-blue-400 to-red-400 animate-gradient-x">
+    <div
+      id="vue-app"
+      class="flex flex-col min-h-screen h-screen"
+    >
       <%= yield %>
+      <%= render partial: '/layouts/footer' %>
     </div>
   </body>
 </html>
