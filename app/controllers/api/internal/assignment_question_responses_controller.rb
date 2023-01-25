@@ -2,26 +2,29 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
   before_action :authenticate_user!
 
   def create
-    respond_with assignment_response.assignment_question_responses.create!(
-      assignment_question_response_params.merge(
-        assignment_question: assignment_question
+    if assignment_question_response.present?
+      assignment_question_response.update!(assignment_question_response_params)
+      respond_with assignment_question_response.reload
+    else
+      respond_with assignment_response.assignment_question_responses.create!(
+        assignment_question_response_params.merge(
+          assignment_question: assignment_question
+        )
       )
-    )
+    end
   end
 
   def update
     assignment_question_response.update!(assignment_question_response_params)
-    respond_with assignment_question_response
-  end
-
-  def destroy
-    respond_with assignment_question_response.destroy!
+    respond_with assignment_question_response.reload
   end
 
   private
 
   def assignment_question_response
-    @assignment_question_response ||= AssignmentQuestionResponse.find_by!(id: params[:id])
+    @assignment_question_response ||= assignment_response
+                                      .assignment_question_responses
+                                      .find_by(assignment_question_id: assignment_question.id)
   end
 
   def course
