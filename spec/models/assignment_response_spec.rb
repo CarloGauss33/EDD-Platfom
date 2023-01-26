@@ -59,5 +59,18 @@ RSpec.describe AssignmentResponse, type: :model do
         expect(assignment_response.last_updated_at).to eq(assignment_question_response.updated_at)
       end
     end
+
+    describe '.by_assignment_and_student' do
+      let!(:assignment_response) { create(:assignment_response) }
+
+      it 'return assignment_response' do
+        expect(
+          AssignmentResponse.by_assignment_and_student(
+            assignment_response.assignment_id,
+            assignment_response.student_id
+          )
+        ).to eq(assignment_response)
+      end
+    end
   end
 end

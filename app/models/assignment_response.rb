@@ -9,12 +9,19 @@ class AssignmentResponse < ApplicationRecord
   validates :student, presence: true
   validates :student, uniqueness: { scope: :assignment }
 
+  scope :by_assignment, ->(assignment_id) { where(assignment_id: assignment_id) }
+  scope :by_student, ->(student_id) { where(student_id: student_id) }
+
   enum status: {
     pending: 0,
     submitted: 1,
     graded: 2,
     cancelled: 3
   }
+
+  def self.by_assignment_and_student(assignment_id, student_id)
+    by_assignment(assignment_id).by_student(student_id).first
+  end
 
   def score
     assignment_question_responses.sum(&:score)

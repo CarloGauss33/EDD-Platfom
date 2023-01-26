@@ -1347,6 +1347,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@tailwindcss/aspect-ratio@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/aspect-ratio/-/aspect-ratio-0.4.2.tgz#9ffd52fee8e3c8b20623ff0dcb29e5c21fb0a9ba"
+  integrity sha512-8QPrypskfBa7QIMuKHg2TA7BqES6vhBrDLOv8Unb6FcFyd3TjKbc6lcmb9UPQHxfl24sXoJ41ux/H7qQQvfaSQ==
+
 "@tootallnate/once@2":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
@@ -7351,6 +7356,11 @@ vue-eslint-parser@^9.0.0, vue-eslint-parser@^9.0.1:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
+
+vue-inline-svg@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/vue-inline-svg/-/vue-inline-svg-3.1.0.tgz#3cedcd4c2ae15a16a1cf3815a1b4170705a87519"
+  integrity sha512-4FUu6q7l6jSL0sc8bs0lzV7MgWMsuSSQAJiQdKsxhGP9sNJfepCWiPfWxU1IPY1mf4LZjTtX93DAiEegWt6cTg==
 
 vue-loader@^16.8.3:
   version "16.8.3"

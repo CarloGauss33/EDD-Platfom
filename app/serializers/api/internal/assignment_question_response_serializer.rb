@@ -2,6 +2,8 @@ class Api::Internal::AssignmentQuestionResponseSerializer < ActiveModel::Seriali
   type :assignment_question_response
 
   attributes(
+    :id,
+    :assignment_question_id,
     :description,
     :file,
     :comment
