@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   mount CoverImageUploader.derivation_endpoint => "/derivations/cover_image"
 
   resources :assignments, only: [:index, :show]
