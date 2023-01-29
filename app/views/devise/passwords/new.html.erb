@@ -1,0 +1,21 @@
+<div class="m-auto py-8 px-6">
+  <div class="bg-white shadow-lg rounded-lg px-16 py-8 items-center justify-between flex flex-col gap-8">
+
+    <h2 class="text-2xl underline underline-offset-8 font-bold text-center text-edd-blue-800">
+      Olvidaste tu contraseña?
+    </h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <div class="flex flex-col items-left justify-center gap-2 mb-4">
+        <%= f.label 'Ingresa tu correo', class: "text-edd-blue-800 font-bold" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "p-2 w-full rounded-md border-2 border-edd-blue-400 focus:border-edd-blue-800" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Enviar instrucciones", class: "w-full mb-2 text-white font-bold hover:bg-edd-blue-800 text-center bg-edd-blue-500 hover:cursor-pointer rounded-md px-12 py-1 mb-1" %>
+      </div>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+    <% end %>
+  </div>
+</div>

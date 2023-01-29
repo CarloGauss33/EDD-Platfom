@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_23_205045) do
+ActiveRecord::Schema.define(version: 2023_01_27_000418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,16 @@ ActiveRecord::Schema.define(version: 2023_01_23_205045) do
     t.index ["course_id"], name: "index_assignments_on_course_id"
   end
 
+  create_table "config_variables", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "key", null: false
+    t.integer "value_type", null: false
+    t.string "value"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "course_classes", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.integer "section"
@@ -117,6 +127,15 @@ ActiveRecord::Schema.define(version: 2023_01_23_205045) do
     t.string "administrator_email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "oauth_providers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "provider", null: false
+    t.string "uid", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_oauth_providers_on_user_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -156,6 +175,7 @@ ActiveRecord::Schema.define(version: 2023_01_23_205045) do
   add_foreign_key "assignment_responses", "students"
   add_foreign_key "assignments", "courses"
   add_foreign_key "course_classes", "courses"
+  add_foreign_key "oauth_providers", "users"
   add_foreign_key "students", "course_classes"
   add_foreign_key "students", "users"
 end
