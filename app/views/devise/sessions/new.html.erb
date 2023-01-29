@@ -1,0 +1,36 @@
+<div class="m-auto py-8 px-4">
+  <div class="bg-white shadow-lg rounded-lg px-4 py-8 items-center justify-between flex flex-col gap-8">
+
+    <h2 class="text-2xl underline underline-offset-8 font-bold text-center text-edd-blue-800">
+      EDD Platform Login
+    </h2>
+
+    <%- if devise_mapping.omniauthable? %>
+      <%= button_to "Iniciar sesión con Google",
+          user_google_oauth2_omniauth_authorize_path,
+          method: :post,
+          class: "text-white font-bold hover:bg-edd-blue-800 text-center bg-edd-blue-500 hover:cursor-pointer rounded-lg px-8 py-4"
+      %>
+      <hr class="w-full border-2 border-edd-blue-400 rounded-md">
+    <% end %>
+
+    <div class="flex flex-col gap-4 bg-edd-blue-50 rounded-lg py-4 px-8 ">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="rounded-lg py-2 flex flex-col items-left justify-center">
+          <%= f.label :email, class: "text-edd-blue-800 font-bold" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "bg-edd-blue-200 px-2 py-1 rounded-md" %>
+        </div>
+
+        <div class="rounded-lg py-2 flex flex-col items-left justify-center mb-2">
+          <%= f.label :password, class: "text-edd-blue-800 font-bold" %>
+          <%= f.password_field :password, autocomplete: "current-password", class: "bg-edd-blue-200 px-2 py-1 rounded-md" %>
+        </div>
+
+        <div class="flex flex-col justify-center items-center">
+          <%= f.submit "Iniciar Sesion", class: "text-white font-bold hover:bg-edd-blue-800 text-center bg-edd-blue-500 hover:cursor-pointer rounded-md px-12 py-1 mb-1" %>
+          <%= link_to "Olvidaste tu contraseña?", new_password_path(resource_name), class: "text-edd-blue-800 text-sm hover:underline" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
