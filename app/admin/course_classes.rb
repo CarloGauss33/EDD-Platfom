@@ -2,6 +2,10 @@ ActiveAdmin.register CourseClass do
   belongs_to :course
   permit_params :course_id, :section, :canvas_course_id, :professor_name, :professor_email
 
+  action_item :students, only: :show do
+    link_to "Ver estudiantes", admin_course_class_students_path(course_class)
+  end
+
   index do
     selectable_column
     id_column

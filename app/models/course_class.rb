@@ -1,10 +1,13 @@
 class CourseClass < ApplicationRecord
   belongs_to :course
 
-  has_many :students
+  has_many :students, dependent: :destroy
   has_many :users, through: :students
 
+  accepts_nested_attributes_for :students, allow_destroy: true
+
   delegate :name, to: :course
+  delegate :assignments, to: :course
 
   validates :section, uniqueness: { scope: :course_id }
 end
