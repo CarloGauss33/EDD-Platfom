@@ -1,4 +1,6 @@
 class Student < ApplicationRecord
+  after_create_commit :create_assignment_responses
+
   belongs_to :course_class
   belongs_to :user
   has_many :assignment_responses, dependent: :destroy
@@ -20,6 +22,14 @@ class Student < ApplicationRecord
   end
 
   enum status: { active: 0, inactive: 1, dropped: 2, completed: 3 }
+
+  private
+
+  def create_assignment_responses
+    course_class.assignments.each do |assignment|
+      assignment_responses.create!(assignment: assignment)
+    end
+  end
 end
 
 # == Schema Information
