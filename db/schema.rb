@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_27_000418) do
+ActiveRecord::Schema.define(version: 2023_01_30_234404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,18 @@ ActiveRecord::Schema.define(version: 2023_01_27_000418) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "course_class_enrollments", force: :cascade do |t|
+    t.bigint "course_class_id", null: false
+    t.string "email"
+    t.string "rut"
+    t.string "university_id"
+    t.string "enrollment_id"
+    t.string "full_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_class_id"], name: "index_course_class_enrollments_on_course_class_id"
+  end
+
   create_table "course_classes", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.integer "section"
@@ -174,6 +186,7 @@ ActiveRecord::Schema.define(version: 2023_01_27_000418) do
   add_foreign_key "assignment_responses", "assignments"
   add_foreign_key "assignment_responses", "students"
   add_foreign_key "assignments", "courses"
+  add_foreign_key "course_class_enrollments", "course_classes"
   add_foreign_key "course_classes", "courses"
   add_foreign_key "oauth_providers", "users"
   add_foreign_key "students", "course_classes"
