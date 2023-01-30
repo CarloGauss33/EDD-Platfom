@@ -22,19 +22,21 @@ class User < ApplicationRecord
   end
 
   def self.by_provider_and_uid(provider, uid)
-    joins(:oauth_providers).where(oauth_providers: { provider: provider, uid: uid })
+    joins(:oauth_providers)
+      .where(oauth_providers: { provider: provider, uid: uid })
+      .first
   end
 
   def self.create_from_provider_data(auth)
-    user = by_provider_and_uid(auth.provider, auth.uid).first
+    user = by_provider_and_uid(auth.provider, auth.uid)
 
     if user.nil?
       user = User.find_by(email: auth.info.email)
       if user.nil?
         user = User.create(
           email: auth.info.email,
-          names: auth.info.first_name,
-          last_names: auth.info.last_name,
+          names: auth.info.first_name.titleize,
+          last_names: auth.info.last_name.titleize,
           password: Devise.friendly_token[0, 20]
         )
       end

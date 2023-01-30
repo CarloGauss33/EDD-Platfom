@@ -14,6 +14,43 @@ RSpec.describe User, type: :model do
   end
 
   describe 'Methods' do
+    describe '#self.by_provider_and_uid' do
+      let!(:user) { create(:user) }
+      let!(:provider) do
+        OauthProvider.create(
+          provider: 'google_oauth2',
+          uid: '123456789',
+          user: user
+        )
+      end
+
+      it 'returns the user by provider and uid' do
+        expect(
+          described_class.by_provider_and_uid(provider.provider, provider.uid)
+        ).to eq(user)
+      end
+    end
+
+    describe '#self.create_from_provider_data' do
+      let(:provider_data) do
+        OmniAuth::AuthHash.new(
+          provider: 'google_oauth2',
+          uid: '123456789',
+          info: {
+            email: 'test@example.com',
+            first_name: 'John',
+            last_name: 'Doe'
+          }
+        )
+      end
+
+      it 'creates a user from provider data' do
+        expect do
+          described_class.create_from_provider_data(provider_data)
+        end.to change { described_class.count }.by(1)
+      end
+    end
+
     describe '.full_name' do
       it 'returns the full name of the user' do
         user = create(:user, names: 'John Joe', last_names: 'Doe Dae')
