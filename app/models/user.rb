@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  after_create_commit :create_students_from_enrollments
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
@@ -47,6 +49,14 @@ class User < ApplicationRecord
   end
 
   enum status: { active: 0, inactive: 1 }
+
+  private
+
+  def create_students_from_enrollments
+    CourseClassEnrollment.search_by_user(self).each do |enrollment|
+      enrollment.course_class.students.create(user: self)
+    end
+  end
 end
 # == Schema Information
 #

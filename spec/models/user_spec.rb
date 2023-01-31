@@ -13,6 +13,29 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'Callbacks' do
+    describe '#after_create_commit' do
+      let!(:course_class) { create(:course_class) }
+      let(:user) { build(:user) }
+      let!(:course_class_enrollment) do
+        create(
+          :course_class_enrollment,
+          course_class: course_class,
+          email: user.email
+        )
+      end
+
+      it 'creates a student in the enrollment course class' do
+        expect { user.save }.to change { Student.count }.by(1)
+      end
+
+      it 'does not create a student if the user is already a student' do
+        create(:student, user: user, course_class: course_class_enrollment.course_class)
+        expect { user.save }.not_to change { Student.count }.from(1)
+      end
+    end
+  end
+
   describe 'Methods' do
     describe '#self.by_provider_and_uid' do
       let!(:user) { create(:user) }
