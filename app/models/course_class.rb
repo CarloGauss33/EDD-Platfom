@@ -3,6 +3,7 @@ class CourseClass < ApplicationRecord
 
   has_many :students, dependent: :destroy
   has_many :users, through: :students
+  has_many :course_class_enrollments, dependent: :destroy
 
   accepts_nested_attributes_for :students, allow_destroy: true
 
