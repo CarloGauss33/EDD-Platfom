@@ -5,6 +5,16 @@ class CourseClassEnrollment < ApplicationRecord
 
   scope :by_course_class, ->(course_class) { where(course_class: course_class) }
 
+  def user
+    @user ||= User.where(
+      "email = ? OR rut = ? OR university_id = ? OR canvas_user_id = ?",
+      email,
+      rut,
+      university_id,
+      enrollment_id
+    ).first
+  end
+
   def self.search_by_user(user)
     where(
       "email = ? OR rut = ? OR university_id = ? OR enrollment_id = ? OR full_name = ?",

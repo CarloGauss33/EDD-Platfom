@@ -46,5 +46,29 @@ RSpec.describe CourseClassEnrollment, type: :model do
         end
       end
     end
+
+    describe '.user' do
+      let!(:user) { create(:user) }
+
+      context 'when the user is not found' do
+        let(:course_class_enrollment) do
+          create(:course_class_enrollment, email: '')
+        end
+
+        it 'returns nil' do
+          expect(course_class_enrollment.user).to eq(nil)
+        end
+      end
+
+      context 'when the user is found' do
+        let(:course_class_enrollment) do
+          create(:course_class_enrollment, email: user.email)
+        end
+
+        it 'returns the user' do
+          expect(course_class_enrollment.user).to eq(user)
+        end
+      end
+    end
   end
 end
