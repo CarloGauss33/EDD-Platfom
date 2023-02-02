@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  after_create_commit :create_students_from_enrollments
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
@@ -22,19 +24,21 @@ class User < ApplicationRecord
   end
 
   def self.by_provider_and_uid(provider, uid)
-    joins(:oauth_providers).where(oauth_providers: { provider: provider, uid: uid })
+    joins(:oauth_providers)
+      .where(oauth_providers: { provider: provider, uid: uid })
+      .first
   end
 
   def self.create_from_provider_data(auth)
-    user = by_provider_and_uid(auth.provider, auth.uid).first
+    user = by_provider_and_uid(auth.provider, auth.uid)
 
     if user.nil?
       user = User.find_by(email: auth.info.email)
       if user.nil?
         user = User.create(
           email: auth.info.email,
-          names: auth.info.first_name,
-          last_names: auth.info.last_name,
+          names: auth.info.first_name.titleize,
+          last_names: auth.info.last_name.titleize,
           password: Devise.friendly_token[0, 20]
         )
       end
@@ -45,6 +49,14 @@ class User < ApplicationRecord
   end
 
   enum status: { active: 0, inactive: 1 }
+
+  private
+
+  def create_students_from_enrollments
+    CourseClassEnrollment.search_by_user(self).each do |enrollment|
+      enrollment.course_class.students.create(user: self)
+    end
+  end
 end
 # == Schema Information
 #

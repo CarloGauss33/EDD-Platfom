@@ -13,7 +13,67 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'Callbacks' do
+    describe '#after_create_commit' do
+      let!(:course_class) { create(:course_class) }
+      let(:user) { build(:user) }
+      let!(:course_class_enrollment) do
+        create(
+          :course_class_enrollment,
+          course_class: course_class,
+          email: user.email
+        )
+      end
+
+      it 'creates a student in the enrollment course class' do
+        expect { user.save }.to change { Student.count }.by(1)
+      end
+
+      it 'does not create a student if the user is already a student' do
+        create(:student, user: user, course_class: course_class_enrollment.course_class)
+        expect { user.save }.not_to change { Student.count }.from(1)
+      end
+    end
+  end
+
   describe 'Methods' do
+    describe '#self.by_provider_and_uid' do
+      let!(:user) { create(:user) }
+      let!(:provider) do
+        OauthProvider.create(
+          provider: 'google_oauth2',
+          uid: '123456789',
+          user: user
+        )
+      end
+
+      it 'returns the user by provider and uid' do
+        expect(
+          described_class.by_provider_and_uid(provider.provider, provider.uid)
+        ).to eq(user)
+      end
+    end
+
+    describe '#self.create_from_provider_data' do
+      let(:provider_data) do
+        OmniAuth::AuthHash.new(
+          provider: 'google_oauth2',
+          uid: '123456789',
+          info: {
+            email: 'test@example.com',
+            first_name: 'John',
+            last_name: 'Doe'
+          }
+        )
+      end
+
+      it 'creates a user from provider data' do
+        expect do
+          described_class.create_from_provider_data(provider_data)
+        end.to change { described_class.count }.by(1)
+      end
+    end
+
     describe '.full_name' do
       it 'returns the full name of the user' do
         user = create(:user, names: 'John Joe', last_names: 'Doe Dae')

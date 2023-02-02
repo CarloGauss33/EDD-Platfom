@@ -1,10 +1,14 @@
 class CourseClass < ApplicationRecord
   belongs_to :course
 
-  has_many :students
+  has_many :students, dependent: :destroy
   has_many :users, through: :students
+  has_many :course_class_enrollments, dependent: :destroy
+
+  accepts_nested_attributes_for :students, allow_destroy: true
 
   delegate :name, to: :course
+  delegate :assignments, to: :course
 
   validates :section, uniqueness: { scope: :course_id }
 end
@@ -13,14 +17,15 @@ end
 #
 # Table name: course_classes
 #
-#  id               :bigint(8)        not null, primary key
-#  course_id        :bigint(8)        not null
-#  section          :integer
-#  canvas_course_id :string
-#  professor_name   :string
-#  professor_email  :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                    :bigint(8)        not null, primary key
+#  course_id             :bigint(8)        not null
+#  section               :integer
+#  canvas_course_id      :string
+#  professor_name        :string
+#  professor_email       :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  enrollments_loaded_at :datetime
 #
 # Indexes
 #

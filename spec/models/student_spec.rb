@@ -20,6 +20,18 @@ RSpec.describe Student, type: :model do
     end
   end
 
+  describe 'Callbacks' do
+    let!(:course_class) { create(:course_class) }
+    let!(:assignment) { create(:assignment, course: course_class.course) }
+    let(:user) { create(:user) }
+
+    it 'creates assignment responses after create' do
+      expect do
+        create(:student, user: user, course_class: course_class)
+      end.to change { AssignmentResponse.count }.by(1)
+    end
+  end
+
   describe 'Scopes' do
     let(:course_class) { create(:course_class) }
     let(:user) { create(:user) }
@@ -42,7 +54,7 @@ RSpec.describe Student, type: :model do
     end
   end
 
-  describe 'Class Methods' do
+  describe 'Methods' do
     let(:course_class) { create(:course_class) }
     let(:user) { create(:user) }
     let!(:student) { create(:student, user: user, course_class: course_class) }
