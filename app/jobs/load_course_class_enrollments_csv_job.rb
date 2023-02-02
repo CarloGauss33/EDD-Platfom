@@ -22,5 +22,7 @@ class LoadCourseClassEnrollmentsCsvJob < ApplicationJob
 
       course_class.update!(enrollments_loaded_at: Time.zone.now)
     end
+
+    SyncEnrollmentAndCourseClassStudentsJob.perform_later(course_class.id)
   end
 end
