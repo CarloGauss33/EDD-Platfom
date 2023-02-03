@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :oauth_providers, dependent: :destroy
 
   def first_name
+    return nil if names.nil?
+
     names.split(" ").first
   end
 
