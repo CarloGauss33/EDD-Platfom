@@ -1,0 +1,5 @@
+https://github.com/heroku/heroku-buildpack-apt
+https://github.com/brandoncc/heroku-buildpack-vips
+https://github.com/heroku/heroku-buildpack-nodejs
+https://github.com/platanus/heroku-buildpack-ruby-version.git
+https://github.com/heroku/heroku-buildpack-ruby.git
