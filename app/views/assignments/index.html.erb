@@ -1,9 +1,6 @@
 <div class="container mx-auto pt py-8 px-6">
-  <assignment-form
-    :assignment="<%= serialize_resource(@assignment) %>"
-    :assignment-questions="<%= serialize_resource(@assignment_questions) %>"
-    :uploaded-assignment-question-responses="<%= serialize_resource(@assignment_question_responses) %>"
-    :course-id="<%= @course.id.to_i %>"
+  <assignments-list
+    :assignments="<%= serialize_resource(@assignments) %>"
     :user="<%= serialize_resource(current_user) %>"
-  ></assignment-form>
+  ></assignments-list>
 </div>
