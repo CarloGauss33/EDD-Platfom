@@ -3,11 +3,11 @@ class AssignmentPolicy < ApplicationPolicy
     user.present? && assignment_active?
   end
 
-  create? do
+  def create?
     user.present? && assignment_active?
   end
 
-  update? do
+  def update?
     user.present? && assignment_active?
   end
 
