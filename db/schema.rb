@@ -143,6 +143,9 @@ ActiveRecord::Schema.define(version: 2023_02_06_032630) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "oauth_providers", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "provider", null: false
