@@ -8,6 +8,8 @@ class AssignmentQuestionResponse < ApplicationRecord
   validates :file, presence: true
   validates :assignment_question, uniqueness: { scope: :assignment_response }
 
+  delegate :student, to: :assignment_response
+
   enum status: {
     pending: 0,
     submitted: 1,

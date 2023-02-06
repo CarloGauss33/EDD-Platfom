@@ -73,9 +73,10 @@ ActiveAdmin.register Assignment do
     end
   end
 
-  sidebar "Assignment Responses", only: :show do
-    div do
-      link_to "Assignment Responses", admin_assignment_assignment_responses_path(assignment)
+  sidebar "Assignment Data", only: :show do
+    ul do
+      li link_to "Assignment Responses", admin_assignment_assignment_responses_path(assignment)
+      li link_to "Assignment Questions", admin_assignment_assignment_questions_path(assignment)
     end
   end
 end

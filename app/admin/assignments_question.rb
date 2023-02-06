@@ -7,6 +7,30 @@ ActiveAdmin.register AssignmentQuestion do
                 :title,
                 :description
 
+  collection_action :download_all_responses, method: :get do
+    send_data DownloadAssignmentQuestionResponsesCsvJob.perform_now(params[:assignment_id]),
+              filename: "assignment_question_responses-#{Time.now}.csv"
+  end
+
+  action_item :download_all_responses, only: :show do
+    link_to 'Descargar Respuestas',
+            download_all_responses_admin_assignment_assignment_questions_path(
+              assignment_question
+            )
+  end
+
+  index do
+    selectable_column
+    id_column
+    column :assignment
+    column :question_type
+    column :title
+    column :description
+    column :created_at
+    column :updated_at
+    actions
+  end
+
   show do
     attributes_table do
       row :assignment
