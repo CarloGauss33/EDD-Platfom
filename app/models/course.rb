@@ -22,14 +22,36 @@ class Course < ApplicationRecord
 
   enum season: {
     first_semester: 0,
-    second_semester: 1,
+    second_semester: 1
   }
 
   def self.current
     active.first
   end
 
+  def summary
+    <<~SUMMARY
+      *#{name} (#{code})*
+      #{description}
+
+      *Actividades:*
+
+      #{build_assignments_summary}
+    SUMMARY
+  end
+
   private
+
+  def build_assignments_summary
+    assignments.map do |assignment|
+      <<~ASSIGNMENT
+        *#{assignment.name} - Estado: #{assignment.status}*
+        #{assignment.description}
+        Fecha de inicio: #{assignment.start_date}
+        Fecha de entrega: #{assignment.end_date}
+      ASSIGNMENT
+    end.join("\n")
+  end
 
   def active_course_unique?
     if active? && Course.active.any?
