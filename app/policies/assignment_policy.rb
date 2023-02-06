@@ -3,6 +3,14 @@ class AssignmentPolicy < ApplicationPolicy
     user.present? && assignment_active?
   end
 
+  create? do
+    user.present? && assignment_active?
+  end
+
+  update? do
+    user.present? && assignment_active?
+  end
+
   private
 
   def assignment_on_time?
