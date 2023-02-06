@@ -211,6 +211,7 @@ GEM
     hashie (5.0.0)
     heroku-stage (0.4.0)
       rails
+    httpclient (2.8.3)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -506,6 +507,10 @@ GEM
       sprockets (>= 3.0.0)
     strong_migrations (1.4.0)
       activerecord (>= 5.2)
+    telegram-bot (0.15.7)
+      actionpack (>= 4.0, < 7.1)
+      activesupport (>= 4.0, < 7.1)
+      httpclient (~> 2.7)
     terminal-notifier (2.0.0)
     thor (1.2.1)
     tilt (2.0.11)
@@ -602,6 +607,7 @@ DEPENDENCIES
   simplecov_text_formatter
   spring
   strong_migrations
+  telegram-bot
   tzinfo-data
   webdrivers
 
