@@ -16,6 +16,7 @@ interface Props {
   attachmentBaseName?: string;
   submitLabel?: string;
   alreadyScanned?: boolean;
+  isSubmitting?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
   downloadAfterScan: false,
   attachmentBaseName: 'attachment',
   submitLabel: 'Guardar y enviar',
+  isSubmitting: false,
 });
 
 const emit = defineEmits<{(e: 'update:modelValue', value: any): void,
@@ -35,7 +37,7 @@ const inputRendering = ref<boolean[]>([false]);
 const numberOfAttachments = ref(props.minAttachments);
 const isAnyInputRendering = computed(() => inputRendering.value.some(x => x));
 const isAnyImageFieldOccupied = computed(() => images.value.some(x => x));
-const ableToSubmit = computed(() => !isAnyInputRendering.value && isAnyImageFieldOccupied.value);
+const ableToSubmit = computed(() => !isAnyInputRendering.value && isAnyImageFieldOccupied.value && !props.isSubmitting);
 
 const skipMessage = computed(() => {
   if (props.alreadyScanned) {
@@ -172,7 +174,7 @@ async function onFileChange(event: Event, index: number) {
     </base-button>
     <base-button
       type="button"
-      :disabled="isAnyInputRendering"
+      :disabled="isAnyInputRendering || !ableToSubmit"
       @click="submit"
     >
       {{ ableToSubmit ? uploadMessage : skipMessage }}
