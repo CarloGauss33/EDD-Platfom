@@ -1,13 +1,13 @@
 require 'shrine'
 
-if Rails.env.production?
+if Rails.env.development?
   require 'shrine/storage/file_system'
 
   Shrine.storages = {
     cache: Shrine::Storage::FileSystem.new('public', prefix: 'uploads/cache'),
     store: Shrine::Storage::FileSystem.new('public', prefix: 'uploads')
   }
-elsif Rails.env.development?
+elsif Rails.env.production?
   require 'shrine/storage/s3'
 
   s3_options = {
