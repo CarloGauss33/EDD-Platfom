@@ -7,6 +7,13 @@ if Rails.env.development? || Rails.env.production?
     cache: Shrine::Storage::FileSystem.new('public', prefix: 'uploads/cache'),
     store: Shrine::Storage::FileSystem.new('public', prefix: 'uploads')
   }
+else
+  require 'shrine/storage/memory'
+
+  Shrine.storages = {
+    cache: Shrine::Storage::Memory.new,
+    store: Shrine::Storage::Memory.new
+  }
 end
 # elsif Rails.env.production?
 #   require 'shrine/storage/s3'
@@ -22,14 +29,6 @@ end
 #     cache: Shrine::Storage::S3.new(prefix: 'cache', **s3_options),
 #     store: Shrine::Storage::S3.new(**s3_options)
 #   }
-# else
-#   require 'shrine/storage/memory'
-
-#   Shrine.storages = {
-#     cache: Shrine::Storage::Memory.new,
-#     store: Shrine::Storage::Memory.new
-#   }
-# end
 
 Shrine.plugin :activerecord
 Shrine.plugin :cached_attachment_data
