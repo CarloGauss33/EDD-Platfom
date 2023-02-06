@@ -10,7 +10,7 @@ class Assignment < ApplicationRecord
   has_many :assignment_responses, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { scope: :course_id }
-  validate :unique_active_exam_on_course?
+  validate :unique_active_exam_on_course?, on: :create
 
   enum status: {
     pending: 0,
@@ -25,6 +25,8 @@ class Assignment < ApplicationRecord
     quiz: 2,
     other: 3
   }
+
+  scope :active, -> { where(status: :active) }
 
   private
 
