@@ -4,6 +4,7 @@ import InlineSvg from 'vue-inline-svg';
 import './css/application.css';
 
 import AssignmentForm from './components/assignment-form.vue';
+import AssignmentsList from './components/assignments-list.vue';
 import BaseScanner from './components/base-scanner.vue';
 import BaseButton from './components/base-button.vue';
 import BaseNotice from './components/base-notice.vue';
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     components: {
       BaseButton,
       AssignmentForm,
+      AssignmentsList,
       BaseScanner,
       BaseNotice,
     },
