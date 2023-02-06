@@ -25,4 +25,6 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
   config.active_record.dump_schema_after_migration = false
+
+  routes.default_url_options = { host: ENV["PRODUCTION_HOST"], protocol: 'https' }
 end
