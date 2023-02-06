@@ -34,7 +34,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const numberOfQuestions = computed(() => props.assignmentQuestions.length - 1);
-const currentQuestionIndex = ref<number>(0);
+const ableToUpload = computed(() => props.assignment.status === 'active');
+const currentQuestionIndex = ref<number>(ableToUpload.value ? 0 : numberOfQuestions.value + 1);
 const assignmentQuestionResponses = ref<AssignmentQuestionResponse[]>(
   new Array(numberOfQuestions.value + 1)
     .fill(0)
@@ -76,6 +77,9 @@ const currentStepSubmitted = computed(() => stepSubmitted(currentQuestionIndex.v
 
 // eslint-disable-next-line max-statements
 async function submitCurrentQuestion() {
+  if (!ableToUpload.value) {
+    return;
+  }
   const currentBlob = blobValues.value[currentQuestionIndex.value];
   if (currentBlob === '') {
     let currentResponse = uploadResponses.value[currentQuestionIndex.value];
@@ -136,6 +140,14 @@ function downloadAllQuestions() {
   }
 }
 
+function goBackOneStep() {
+  if (currentQuestionIndex.value === 0 || !ableToUpload.value) {
+    return;
+  }
+
+  currentQuestionIndex.value -= 1;
+}
+
 onMounted(() => {
   if (props.uploadedAssignmentQuestionResponses.length > 0) {
     props.uploadedAssignmentQuestionResponses.forEach((uploadedAssignmentQuestionResponse) => {
@@ -147,13 +159,13 @@ onMounted(() => {
 
 </script>
 <template>
-  <div class="w-full rounded-lg bg-white px-4 py-6 text-justify shadow-lg">
+  <div class="w-full rounded-lg bg-slate-100 px-4 py-6 text-justify shadow-lg">
     <div class="mb-4 grid grid-cols-5 items-center">
       <base-button
         variant="tertiary"
         class="col-span-1 py-1 text-2xl"
-        :disabled="currentQuestionIndex === 0"
-        @click="currentQuestionIndex = currentQuestionIndex - 1"
+        :href="currentQuestionIndex === 0 || !ableToUpload ? '/' : undefined"
+        @click="goBackOneStep"
       >
         ←
       </base-button>
@@ -206,12 +218,12 @@ onMounted(() => {
           En caso de querer modificar alguna respuesta, puedes volver hacia atrás y realizarlo.
         </p>
 
+        <h1 class="text-center text-xl font-bold text-edd-blue-800">
+          Respuestas de {{ user.firstName }}
+        </h1>
         <div
           class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-4"
         >
-          <h1 class="text-center text-xl font-bold text-edd-blue-800">
-            Respuestas de {{ user.firstName }}
-          </h1>
           <a
             v-for="(uploadedResponse, index) in uploadResponses"
             :key="uploadedResponse.id"

@@ -38,8 +38,8 @@ ActiveAdmin.register Assignment do
       f.input :status
       f.input :kind
       f.input :responses_required
-      f.input :start_date, as: :datepicker
-      f.input :end_date, as: :datepicker
+      f.input :start_date, as: :date_time_picker
+      f.input :end_date, as: :date_time_picker
       hr
       f.has_many :assignment_questions, heading: false, allow_destroy: true do |r|
         r.input :question_type

@@ -11,6 +11,10 @@ class User < ApplicationRecord
   has_many :course_classes, through: :students
   has_many :oauth_providers, dependent: :destroy
 
+  def assignments
+    Assignment.where(course: course_classes.map(&:course))
+  end
+
   def first_name
     return nil if names.nil?
 

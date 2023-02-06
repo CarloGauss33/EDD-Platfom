@@ -29,6 +29,7 @@ gem 'scout_apm'
 gem 'shakapacker', '~> 6.2.0'
 gem 'shrine', '~> 3.0'
 gem 'strong_migrations'
+gem 'tzinfo-data'
 
 group :development do
   gem 'annotate', '~> 3.0'
@@ -68,5 +69,4 @@ end
 group :production do
   gem 'heroku-stage'
   gem 'rack-timeout'
-  gem 'tzinfo-data'
 end

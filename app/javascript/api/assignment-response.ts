@@ -8,8 +8,10 @@ export interface Assignment {
   name: string;
   description: string;
   kind: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
+  status?: string;
+  course: { id: number, name: string, code: string };
 }
 export interface AssignmentResponse {
   id: number;
@@ -17,8 +19,8 @@ export interface AssignmentResponse {
   userId: number;
   status: string;
   finalScore: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AssignmentQuestion {

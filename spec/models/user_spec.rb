@@ -95,6 +95,21 @@ RSpec.describe User, type: :model do
         expect(user.username).to eq('test')
       end
     end
+
+    describe '.assignments' do
+      let(:user) { create(:user) }
+      let(:course_class) { create(:course_class) }
+      let(:course) { course_class.course }
+      let(:assignment) { create(:assignment, course: course) }
+
+      before do
+        create(:student, user: user, course_class: course_class)
+      end
+
+      it 'returns the assignments of the user' do
+        expect(user.assignments).to include(assignment)
+      end
+    end
   end
 
   describe 'Associations' do
