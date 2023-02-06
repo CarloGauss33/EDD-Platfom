@@ -5,5 +5,6 @@ FactoryBot.define do
     canvas_course_id { "1" }
     professor_name { "Profesor" }
     professor_email { "professor@example.com" }
+    default_inscription { false }
   end
 end

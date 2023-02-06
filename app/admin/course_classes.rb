@@ -44,6 +44,7 @@ ActiveAdmin.register CourseClass do
     column :canvas_course_id
     column :professor_name
     column :professor_email
+    row :default_inscription
     column :created_at
     actions
   end
@@ -61,6 +62,8 @@ ActiveAdmin.register CourseClass do
       f.input :canvas_course_id
       f.input :professor_name
       f.input :professor_email
+      f.input :default_inscription,
+              hint: 'Si se selecciona, los nuevos usuarios se inscribirán automáticamente a esta clase'
     end
     f.actions
   end
@@ -73,6 +76,7 @@ ActiveAdmin.register CourseClass do
       row :professor_name
       row :professor_email
       row :enrollments_loaded_at
+      row :default_inscription
       row :created_at
       row :updated_at
     end

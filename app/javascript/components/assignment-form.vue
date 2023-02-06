@@ -246,9 +246,17 @@ onMounted(() => {
         </div>
         <base-button
           :disabled="isSubmitting || !anyNewResponse"
+          class="mb-4"
           @click="downloadAllQuestions"
         >
           Descargar respuestas nuevas
+        </base-button>
+        <base-button
+          :disabled="isSubmitting || !anyNewResponse"
+          href="/"
+          variant="secondary"
+        >
+          Volver al inicio
         </base-button>
       </div>
       <div v-else>

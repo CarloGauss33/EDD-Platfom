@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_31_000208) do
+ActiveRecord::Schema.define(version: 2023_02_06_032630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 2023_01_31_000208) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "enrollments_loaded_at"
+    t.boolean "default_inscription", default: false
     t.index ["course_id"], name: "index_course_classes_on_course_id"
   end
 

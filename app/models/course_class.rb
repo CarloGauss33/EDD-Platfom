@@ -10,6 +10,8 @@ class CourseClass < ApplicationRecord
   delegate :name, to: :course
   delegate :assignments, to: :course
 
+  scope :default_inscription, -> { where(default_inscription: true) }
+
   validates :section, uniqueness: { scope: :course_id }
 end
 
@@ -26,6 +28,7 @@ end
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  enrollments_loaded_at :datetime
+#  default_inscription   :boolean          default(FALSE)
 #
 # Indexes
 #
