@@ -37,7 +37,8 @@ const inputRendering = ref<boolean[]>([false]);
 const numberOfAttachments = ref(props.minAttachments);
 const isAnyInputRendering = computed(() => inputRendering.value.some(x => x));
 const isAnyImageFieldOccupied = computed(() => images.value.some(x => x));
-const ableToSubmit = computed(() => !isAnyInputRendering.value && isAnyImageFieldOccupied.value && !props.isSubmitting);
+const ableToSubmit = computed(() => !isAnyInputRendering.value && isAnyImageFieldOccupied.value);
+const isLoading = computed(() => props.isSubmitting || isAnyInputRendering.value);
 
 const skipMessage = computed(() => {
   if (props.alreadyScanned) {
@@ -174,14 +175,14 @@ async function onFileChange(event: Event, index: number) {
     </base-button>
     <base-button
       type="button"
-      :disabled="isAnyInputRendering || !ableToSubmit"
+      :disabled="isLoading"
       @click="submit"
     >
       {{ ableToSubmit ? uploadMessage : skipMessage }}
     </base-button>
   </div>
   <base-notice
-    v-if="isAnyInputRendering"
+    v-if="isLoading"
     class="mt-5 w-full opacity-70"
     variant="secondary"
   >
