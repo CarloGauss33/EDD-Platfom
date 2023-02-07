@@ -273,6 +273,7 @@ onMounted(() => {
           v-model="blobValues[index]"
           :min-attachments="1"
           :already-scanned="stepSubmitted(index)"
+          :is-submitting="isSubmitting"
           @submit="submitCurrentQuestion"
         />
       </div>
