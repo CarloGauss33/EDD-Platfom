@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     namespace :internal do
       resources :assignment_question_responses
       resources :courses, only: [] do
+        resources :course_classes, only: [] do
+          resources :students, only: [:create]
+        end
         resources :assignments, only: [:index, :show] do
           resources :assignment_questions, only: [:create, :update, :destroy] do
             resource :assignment_question_response, only: [:update, :create]
