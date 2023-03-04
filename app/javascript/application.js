@@ -7,6 +7,8 @@ import './css/application.css';
 
 import AssignmentForm from './components/assignment-form.vue';
 import AssignmentsList from './components/assignments-list.vue';
+import StudentForm from './components/student-form.vue';
+
 import BaseScanner from './components/base-scanner.vue';
 import BaseButton from './components/base-button.vue';
 import BaseNotice from './components/base-notice.vue';
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       BaseButton,
       AssignmentForm,
       AssignmentsList,
+      StudentForm,
     },
   });
 
