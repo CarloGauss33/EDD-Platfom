@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     namespace :internal do
       resources :assignment_question_responses
       resources :courses, only: [] do
+        resources :course_classes, only: [] do
+          resources :students, only: [:create]
+        end
         resources :assignments, only: [:index, :show] do
           resources :assignment_questions, only: [:create, :update, :destroy] do
             resource :assignment_question_response, only: [:update, :create]
@@ -17,6 +20,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   resources :assignments, only: [:index, :show]
+  resources :courses, only: [:index, :show] do
+    resources :students, only: [:new]
+  end
 
   root to: 'assignments#index'
 end
