@@ -5,19 +5,33 @@ RSpec.describe Openai::SendOpenaiQuestionResponseJob, type: :job do
 
   before do
     allow(OpenaiClient).to receive(:new).and_return(openai_client)
-    allow(openai_client).to receive(:get_completion).and_return('response')
+    allow(openai_client).to receive(:get_completion).and_return('completion')
+    allow(openai_client).to receive(:get_chat_completion).and_return('chat')
   end
 
-  def perform
-    described_class.perform_now('question')
+  def perform(strategy = :chat)
+    described_class.perform_now('question', strategy)
   end
 
-  it 'calls the openai client' do
-    perform
-    expect(openai_client).to have_received(:get_completion)
+  context 'when strategy is not present' do
+    it 'returns chat strategy' do
+      expect(perform).to eq('chat')
+    end
+
+    it 'calls get_chat_completion' do
+      perform
+      expect(openai_client).to have_received(:get_chat_completion)
+    end
   end
 
-  it 'returns the response' do
-    expect(perform).to eq('response')
+  context 'when strategy is completion' do
+    it 'returns completion strategy' do
+      expect(perform(:completion)).to eq('completion')
+    end
+
+    it 'calls get_completion' do
+      perform(:completion)
+      expect(openai_client).to have_received(:get_completion)
+    end
   end
 end
