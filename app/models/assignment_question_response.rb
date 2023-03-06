@@ -1,4 +1,5 @@
 class AssignmentQuestionResponse < ApplicationRecord
+  include PowerTypes::Observable
   include FileUploader::Attachment.new(:file)
   belongs_to :assignment_question
   belongs_to :assignment_response
