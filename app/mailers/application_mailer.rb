@@ -1,4 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  helper :mailer
+  default from: ENV.fetch('DEFAULT_EMAIL_FROM', '')
+  default cco: ENV.fetch('DEFAULT_EMAIL_CC_RECIPIENTS', '').split(',')
   layout 'mailer'
 end
