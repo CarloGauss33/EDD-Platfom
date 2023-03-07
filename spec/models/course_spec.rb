@@ -71,18 +71,5 @@ RSpec.describe Course, type: :model do
         expect(described_class.current).to eq(active_course)
       end
     end
-
-    describe ".summary" do
-      let!(:course) { create(:course) }
-      let(:assignments) { create_list(:assignment, 3, course: course) }
-
-      it "returns a summary of the course" do
-        expect(course.summary).to be_a(String)
-      end
-
-      it "returns a summary of the course's assignments" do
-        expect(course.summary).to include("Actividades:")
-      end
-    end
   end
 end

@@ -9,13 +9,6 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     respond_with :message, text: response
   end
 
-  def summary!(course_code = nil)
-    @course_code = course_code
-    message = course ? course.summary : 'No se encontró el curso'
-
-    respond_with :message, text: message, parse_mode: 'Markdown'
-  end
-
   def question!(*words)
     full_question = words.join(' ')
     return respond_with :message, text: 'Debes ingresar una pregunta' if full_question.blank?
