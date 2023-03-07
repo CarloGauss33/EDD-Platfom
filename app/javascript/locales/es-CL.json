@@ -1,0 +1,12 @@
+{
+  "assignment": {
+    "status": {
+      "pending": "Pendiente",
+      "completed": "Completado",
+      "finished": "Finalizado",
+      "cancelled": "Cancelado",
+      "failed": "Fallido",
+      "submitted": "Enviado"
+    }
+  }
+}
