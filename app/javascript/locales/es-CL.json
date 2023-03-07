@@ -8,5 +8,12 @@
       "failed": "Fallido",
       "submitted": "Enviado"
     }
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "edit": "Editar",
+    "view": "Dejar de Editar",
+    "error": "Ocurrió un error al actualizar su perfil, por favor intente de nuevo.",
+    "logout": "Cerrar Sesión"
   }
 }

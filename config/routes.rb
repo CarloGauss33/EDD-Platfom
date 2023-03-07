@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   namespace :api, defaults: { format: :json } do
     namespace :internal do
+      resource :users, only: [:update]
       resources :assignment_question_responses
       resources :courses, only: [] do
         resources :course_classes, only: [] do
@@ -24,5 +25,6 @@ Rails.application.routes.draw do
     resources :students, only: [:new]
   end
 
+  get 'profile', to: 'users#show'
   root to: 'assignments#index'
 end
