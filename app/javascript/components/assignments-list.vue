@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import type { Assignment } from 'api/assignment-response';
+import type { Assignment, AssignmentResponse } from 'api/assignment-response';
 import AssignmentItem from 'components/assignment-item.vue';
 
 type User = {
@@ -18,14 +18,21 @@ type User = {
 
 interface Props {
   assignments: Assignment[];
+  submittedAssignmentsResponses?: AssignmentResponse[];
   user: User;
 }
 
 const props = defineProps<Props>();
+
+function isAssignmentAlreadySubmitted(assignment: Assignment) {
+  return props.submittedAssignmentsResponses?.some(
+    (assignmentResponse) => assignmentResponse.assignmentId === assignment.id,
+  );
+}
 </script>
 <template>
   <div class="w-full rounded-lg bg-slate-100 px-4 py-6 text-justify shadow-lg">
-    <h1 class="mb-4 text-center text-2xl font-bold">
+    <h1 class="mb-8 text-center text-2xl font-bold">
       Interrogaciones de {{ props.user.fullName }}
     </h1>
 
@@ -37,6 +44,7 @@ const props = defineProps<Props>();
         v-for="assignment in props.assignments"
         :key="assignment.id"
         :assignment="assignment"
+        :is-submitted="isAssignmentAlreadySubmitted(assignment)"
       />
     </div>
     <div v-else>
