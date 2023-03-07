@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import Rails from '@rails/ujs';
@@ -17,9 +18,20 @@ import BaseSelect from './components/base-select.vue';
 import BaseLabel from './components/base-label.vue';
 import BaseModal from './components/base-modal.vue';
 
+import esCL from './locales/es-CL.json';
+
+type MessageSchema = typeof esCL;
+
 // eslint-disable-next-line max-statements
 document.addEventListener('DOMContentLoaded', () => {
   Rails.start();
+
+  const i18n = createI18n<[MessageSchema], 'es-CL'>({
+    locale: 'es-CL',
+    messages: {
+      'es-CL': esCL,
+    },
+  });
 
   const app = createApp({
     components: {
@@ -31,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   app.use(VueQueryPlugin);
+  app.use(i18n);
 
   app.component('InlineSvg', InlineSvg);
   app.component('VField', Field);
