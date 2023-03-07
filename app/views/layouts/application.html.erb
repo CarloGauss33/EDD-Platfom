@@ -19,9 +19,10 @@
       id="vue-app"
       class="flex flex-col min-h-screen h-screen"
     >
-      <% if current_user %>
-        <%= link_to "Cerrar sesion", destroy_user_session_path, method: :delete, class: "absolute top-0 right-0 py-1 px-4 text-white text-sm underline" %>
-      <% end %>
+      <the-navbar
+        :user="<%= current_user ? serialize_resource(current_user) : 'null' %>"
+        class="md:mb-0 mb-4"
+      ></the-navbar>
 
       <%= yield %>
       <%= render partial: '/layouts/footer' %>
