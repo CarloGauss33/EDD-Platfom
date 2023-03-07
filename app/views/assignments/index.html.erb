@@ -1,6 +1,7 @@
 <div class="container mx-auto pt py-8 px-6">
   <assignments-list
     :assignments="<%= serialize_resource(@assignments) %>"
+    :submitted-assignments-responses="<%= serialize_resource(@submitted_assignment_responses) %>"
     :user="<%= serialize_resource(current_user) %>"
   ></assignments-list>
 </div>

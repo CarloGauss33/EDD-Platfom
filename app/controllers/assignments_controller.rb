@@ -3,6 +3,7 @@ class AssignmentsController < ApplicationController
 
   def index
     @assignments = current_user.assignments.order(end_date: :desc).includes(:course)
+    @submitted_assignment_responses = submitted_assignment_responses
   end
 
   def show
@@ -20,6 +21,10 @@ class AssignmentsController < ApplicationController
 
   def assignment_questions
     @assignment_questions = assignment.assignment_questions
+  end
+
+  def submitted_assignment_responses
+    @submitted_assignment_responses = current_user.assignment_responses.submitted
   end
 
   def course

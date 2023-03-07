@@ -9,6 +9,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   has_many :students, dependent: :destroy
+  has_many :assignment_responses, through: :students
   has_many :course_classes, through: :students
   has_many :oauth_providers, dependent: :destroy
 
