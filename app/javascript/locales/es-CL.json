@@ -1,6 +1,7 @@
 {
   "assignment": {
     "status": {
+      "active": "Activo",
       "pending": "Pendiente",
       "completed": "Completado",
       "finished": "Finalizado",
