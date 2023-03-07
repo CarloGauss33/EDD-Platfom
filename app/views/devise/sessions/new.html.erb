@@ -4,7 +4,7 @@
     <h2 class="text-2xl underline underline-offset-8 font-bold text-center text-edd-blue-800 mb-6">
       EDD Platform Login
     </h2>
-    <%- if devise_mapping.omniauthable? %>
+    <%- if devise_mapping.omniauthable? && oauth_enabled? %>
       <%= button_to "Iniciar sesión con Google",
           user_google_oauth2_omniauth_authorize_path,
           method: :post,

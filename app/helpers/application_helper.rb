@@ -3,6 +3,10 @@ module ApplicationHelper
     new_course_student_path(current_course)
   end
 
+  def oauth_enabled?
+    ConfigVariable.fetch('OAUTH_ENABLED', false)
+  end
+
   private
 
   def current_course
