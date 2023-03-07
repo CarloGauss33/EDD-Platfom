@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe 'Api::Internal::AssignmentQuestionResponsesControllers', type: :request do
   describe 'POST /create' do
     let!(:student) { create(:student) }
-    let!(:assignment) { create(:assignment, course: student.course) }
+    let!(:assignment) do
+      create(:assignment,
+             course: student.course,
+             status: :active)
+    end
     let!(:assignment_question) { create(:assignment_question, assignment: assignment) }
 
     let(:params) do
@@ -76,11 +80,25 @@ RSpec.describe 'Api::Internal::AssignmentQuestionResponsesControllers', type: :r
         )
       end
     end
+
+    context 'with an non active assignment' do
+      before do
+        assignment.update!(status: :completed)
+        sign_in student.user
+        perform
+      end
+
+      it { expect(response.status).to eq(422) }
+    end
   end
 
   describe 'PUT /update' do
     let!(:student) { create(:student) }
-    let!(:assignment) { create(:assignment, course: student.course) }
+    let!(:assignment) do
+      create(:assignment,
+             course: student.course,
+             status: :active)
+    end
     let!(:assignment_question) { create(:assignment_question, assignment: assignment) }
     let!(:assignment_question_response) do
       create(:assignment_question_response,
@@ -111,16 +129,28 @@ RSpec.describe 'Api::Internal::AssignmentQuestionResponsesControllers', type: :r
           "/assignment_question_response", params: params
     end
 
-    before do
-      sign_in student.user
-      perform
+    context 'with valid assignment' do
+      before do
+        sign_in student.user
+        perform
+      end
+
+      it 'updates the assignment question response attributes' do
+        expect(assignment_question_response.reload.comment).to eq('Some comment')
+        expect(assignment_question_response.reload.description).to eq('Some description')
+      end
+
+      it { expect(response.status).to eq(200) }
     end
 
-    it 'updates the assignment question response attributes' do
-      expect(assignment_question_response.reload.comment).to eq('Some comment')
-      expect(assignment_question_response.reload.description).to eq('Some description')
-    end
+    context 'with an non active assignment' do
+      before do
+        assignment.update!(status: :completed)
+        sign_in student.user
+        perform
+      end
 
-    it { expect(response.status).to eq(200) }
+      it { expect(response.status).to eq(422) }
+    end
   end
 end

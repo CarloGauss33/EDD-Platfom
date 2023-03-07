@@ -1,5 +1,6 @@
 class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::BaseController
   before_action :authenticate_user!
+  before_action :check_assignment_enabled, only: %i[create update]
 
   def create
     if assignment_question_response.present?
@@ -36,7 +37,7 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
   end
 
   def assignment
-    @assignment ||= course.assignments.find_by!(id: params[:assignment_id])
+    @assignment ||= course.assignments.find(params[:assignment_id])
   end
 
   def assignment_response
@@ -53,5 +54,17 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
       :file,
       :comment
     )
+  end
+
+  def assignment_enabled?
+    assignment.active? &&
+      assignment.start_date < Time.zone.now &&
+      assignment.end_date > Time.zone.now
+  end
+
+  def check_assignment_enabled
+    return if assignment_enabled?
+
+    respond_with assignment, status: :unprocessable_entity
   end
 end
