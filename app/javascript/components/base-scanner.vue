@@ -17,6 +17,8 @@ interface Props {
   submitLabel?: string;
   alreadyScanned?: boolean;
   isSubmitting?: boolean;
+  numberOfSteps?: number;
+  currentStep?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,6 +26,8 @@ const props = withDefaults(defineProps<Props>(), {
   downloadAfterScan: false,
   attachmentBaseName: 'attachment',
   submitLabel: 'Guardar y enviar',
+  numberOfSteps: 1,
+  currentStep: 1,
   isSubmitting: false,
 });
 
@@ -178,7 +182,7 @@ async function onFileChange(event: Event, index: number) {
       :disabled="isLoading"
       @click="submit"
     >
-      {{ ableToSubmit ? uploadMessage : skipMessage }}
+      {{ ableToSubmit ? uploadMessage : skipMessage }} ({{ props.currentStep }}/{{ props.numberOfSteps }})
     </base-button>
   </div>
   <base-notice

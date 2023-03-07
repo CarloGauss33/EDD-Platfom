@@ -177,21 +177,23 @@ onMounted(() => {
               'Resumen' :
               props.assignmentQuestions[currentQuestionIndex].title
           }}
+          {{ currentStepSubmitted ? " (Respondida)" : "" }}
         </h2>
       </div>
     </div>
     <p
       v-if="currentQuestionIndex <= numberOfQuestions"
-      class="mb-4 text-black md:text-lg"
+      class="mb-4 text-left text-black md:text-lg"
     >
-      Hola {{ user.firstName }}!, Adjunta las capturas de la interrogación y luego presiona el botón de enviar,
-      En caso de no responder la pregunta, puedes saltarla.
+      Hola {{ user.firstName }}!, Agrega las capturas de la interrogación y luego presiona el botón de enviar,
+      En caso de no responder la pregunta, puedes saltarla. En caso de querer eliminar una respuesta
+      reemplaza la imagen por una en blanco.
     </p>
     <base-notice
       v-if="currentStepSubmitted"
       class="mb-4 flex w-full flex-col gap-2 md:flex-row"
     >
-      Ya tienes una respuesta registrada para esta pregunta, si deseas cambiarla, puedes volver a responder.
+      Ya tienes una respuesta registrada para esta pregunta, si deseas modificar, puedes volver a responder.
       <base-button
         variant="secondary"
         size="sm"
@@ -274,6 +276,8 @@ onMounted(() => {
           :min-attachments="1"
           :already-scanned="stepSubmitted(index)"
           :is-submitting="isSubmitting"
+          :number-of-steps="numberOfQuestions + 1"
+          :current-step="currentQuestionIndex + 1"
           @submit="submitCurrentQuestion"
         />
       </div>
