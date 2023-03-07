@@ -20,5 +20,7 @@ module Klasse
     config.i18n.default_locale = 'es-CL'
     config.assets.paths << Rails.root.join('node_modules')
     config.load_defaults 6.1
+    config.time_zone = ENV.fetch('TZ', 'Santiago')
+    config.active_record.default_timezone = :local
   end
 end

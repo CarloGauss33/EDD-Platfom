@@ -22,7 +22,7 @@ const computedStatus = computed(() => {
 });
 
 function formatDate(date: string) {
-  return format(Date.parse(date), 'dd MMMM - HH:MM', { locale: es });
+  return format(Date.parse(date), 'dd MMMM - HH:mm', { locale: es });
 }
 </script>
 <template>
