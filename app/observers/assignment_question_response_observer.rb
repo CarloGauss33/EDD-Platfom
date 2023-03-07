@@ -1,5 +1,5 @@
 class AssignmentQuestionResponseObserver < PowerTypes::Observer
-  after_create_commit :update_assignment_response
+  after_save :update_assignment_response
 
   def update_assignment_response
     assignment_response.submitted! if assignment_response.pending?
