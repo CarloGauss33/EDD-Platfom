@@ -16,5 +16,10 @@
     "view": "Dejar de Editar",
     "error": "Ocurrió un error al actualizar su perfil, por favor intente de nuevo.",
     "logout": "Cerrar Sesión"
+  },
+  "errors": {
+    "404": "Página no encontrada",
+    "500": "Error Interno del Servidor",
+    "homeLinkText": "Volver a la página principal"
   }
 }
