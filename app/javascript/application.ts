@@ -11,6 +11,7 @@ import AssignmentsList from './components/assignments-list.vue';
 import StudentForm from './components/student-form.vue';
 import UserProfile from './components/user-profile.vue';
 
+import TheErrorPage from './components/the-error-page.vue';
 import TheNavbar from './components/the-navbar.vue';
 import BaseScanner from './components/base-scanner.vue';
 import BaseButton from './components/base-button.vue';
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = createApp({
     components: {
       TheNavbar,
+      TheErrorPage,
       BaseButton,
       AssignmentForm,
       AssignmentsList,
