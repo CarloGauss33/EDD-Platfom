@@ -1,4 +1,6 @@
 class AssignmentResponse < ApplicationRecord
+  after_update :notify_state_change, if: :status_changed?
+
   belongs_to :assignment
   belongs_to :student
 
@@ -32,6 +34,14 @@ class AssignmentResponse < ApplicationRecord
 
   def last_updated_at
     assignment_question_responses.maximum(:updated_at)
+  end
+
+  private
+
+  def notify_state_change
+    return unless submitted?
+
+    NotifyInterrogationUploadJob.perform_now(id)
   end
 end
 
