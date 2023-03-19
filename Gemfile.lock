@@ -576,6 +576,7 @@ DEPENDENCIES
   faker
   guard-rspec
   heroku-stage
+  httparty
   image_processing (~> 1.8)
   jbuilder (~> 2.7)
   listen
