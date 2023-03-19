@@ -12,6 +12,9 @@ class AssignmentResponse < ApplicationRecord
   scope :by_assignment, ->(assignment_id) { where(assignment_id: assignment_id) }
   scope :by_student, ->(student_id) { where(student_id: student_id) }
 
+  delegate :name, to: :assignment, prefix: true
+  delegate :email, to: :student, prefix: true
+
   enum status: {
     pending: 0,
     submitted: 1,
