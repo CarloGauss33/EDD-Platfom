@@ -1,2 +1,42 @@
 es-CL:
-  hello: "Hola mundo"
+  date:
+      formats:
+        short_date: '%-d de %B'
+  activerecord:
+    messages:
+    models:
+      user:
+        one: Usuario
+        other: Usuarios
+      assignment:
+        one: Interrogación
+        other: Interrogaciones
+      assignment_response:
+        one: Respuesta a interrogación
+        other: Respuestas a interrogaciones
+      assignment_question:
+        one: Pregunta de interrogación
+        other: Preguntas de interrogaciones
+    attributes:
+      user:
+        email: Correo
+        password: Contraseña
+        names: Nombres
+        last_names: Apellidos
+        full_name: Nombre completo
+        status: Estado
+        canvas_user_id: ID de usuario en Canvas
+        university_id: Número de alumno
+        rut: RUT
+        github_username: Usuario de GitHub
+      assignment:
+        name: Nombre
+        description: Descripción
+        due_date: Fecha de entrega
+        status: Estado
+        canvas_assignment_id: ID de interrogación en Canvas
+        course_id: ID de curso
+        assignment_type: Tipo de interrogación
+        assignment_questions: Preguntas de interrogación
+
+
