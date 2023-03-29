@@ -1,5 +1,5 @@
 class AssignmentResponse < ApplicationRecord
-  after_update :notify_state_change, if: :status_changed?
+  after_update :notify_state_change
 
   belongs_to :assignment
   belongs_to :student
@@ -42,6 +42,8 @@ class AssignmentResponse < ApplicationRecord
     return unless submitted?
 
     NotifyInterrogationUploadJob.perform_now(id)
+  rescue
+    Rails.logger.error("Error notifying upload: #{e.message}")
   end
 end
 

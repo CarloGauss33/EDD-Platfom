@@ -8,6 +8,8 @@ class NotifyInterrogationUploadJob < ApplicationJob
     return if assignment_response.blank? || webhook_client.blank?
 
     webhook_client.post_payload(body)
+  rescue
+    Rails.logger.error("Failed to notify webhook")
   end
 
   private
