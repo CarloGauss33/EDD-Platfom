@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, withDefaults, computed, ref, onMounted } from 'vue';
+import { useMutation } from '@tanstack/vue-query';
 import AssignmentResponseApi, {
   type AssignmentQuestionUploadResponse,
   type AssignmentQuestionResponse,
@@ -58,6 +59,10 @@ const errorMessage = ref<string>('');
 const blobValues = ref<string[]>(new Array(numberOfQuestions.value + 1).fill(''));
 const isLastStep = computed(() => currentQuestionIndex.value === numberOfQuestions.value);
 const anyNewResponse = computed(() => blobValues.value.some((blob) => blob !== ''));
+
+const { isLoading: isSubmitLoading, isSuccess: isSubmitSuccess, mutate } = useMutation({
+  mutationFn: () => AssignmentResponseApi.setAssignmentAsSubmitted(props.courseId, props.assignment.id),
+});
 
 function arrayIdFromAssignmentQuestionId(assignmentQuestionId: number) {
   return props.assignmentQuestions.findIndex(
@@ -157,6 +162,11 @@ onMounted(() => {
   }
 });
 
+function submitLastStep() {
+  mutate();
+  downloadAllQuestions();
+}
+
 </script>
 <template>
   <div class="w-full rounded-lg bg-slate-100 px-4 py-6 text-justify shadow-lg">
@@ -183,11 +193,9 @@ onMounted(() => {
     </div>
     <p
       v-if="currentQuestionIndex <= numberOfQuestions"
-      class="mb-4 text-left text-black md:text-lg"
+      class="mb-4 text-black md:text-lg text-sm"
     >
-      Hola {{ user.firstName }}!, Agrega las capturas de la interrogación y luego presiona el botón de enviar,
-      En caso de no responder la pregunta, puedes saltarla. En caso de querer eliminar una respuesta
-      reemplaza la imagen por una en blanco.
+      Hola {{ user.firstName }}!, Agrega las capturas de tu interrogación, luego de agregarlas, presiona el botón de "Siguiente".
     </p>
     <base-notice
       v-if="currentStepSubmitted"
@@ -215,12 +223,17 @@ onMounted(() => {
         v-if="!isLastStep"
         class="flex flex-col justify-center"
       >
-        <p class="mb-4 text-justify text-base">
-          Tus respuestas fueron enviadas correctamente, puedes visualizarlas a continuación.
-          En caso de querer modificar alguna respuesta, puedes volver hacia atrás y realizarlo.
+        <p class="mb-4 text-justify text-lg font-medium">
+          <span v-if="ableToUpload">
+            Tus respuestas fueron enviadas correctamente, puedes visualizarlas a continuación.
+            En caso de querer modificar alguna respuesta, puedes volver hacia atrás y realizarlo.
+          </span>
+          <span v-else>
+            La evaluación se encuentra cerrada, no puedes realizar más respuestas.
+          </span>
         </p>
 
-        <h1 class="text-center text-xl font-bold text-edd-blue-800">
+        <h1 class="mb-8 text-center text-xl font-bold text-edd-blue-800">
           Respuestas de {{ user.firstName }}
         </h1>
         <div
@@ -247,19 +260,30 @@ onMounted(() => {
           </a>
         </div>
         <base-button
-          :disabled="isSubmitting || !anyNewResponse"
+          v-if="ableToUpload"
+          :disabled="isSubmitting || isSubmitLoading || isSubmitSuccess"
           class="mb-4"
-          @click="downloadAllQuestions"
+          @click.prevent="submitLastStep"
         >
-          Descargar respuestas nuevas
+          Terminar interrogación
         </base-button>
         <base-button
+          v-if="isSubmitSuccess || !ableToUpload"
           :disabled="isSubmitting || !anyNewResponse"
           href="/"
           variant="secondary"
         >
           Volver al inicio
         </base-button>
+        <h2
+          v-if="isSubmitSuccess"
+          class="mt-4 text-center text-xl font-bold text-edd-blue-800"
+        >
+          Tus respuestas fueron enviadas correctamente!
+        </h2>
+        <div v-if="isSubmitLoading">
+          Enviando...
+        </div>
       </div>
       <div v-else>
         Cargando...

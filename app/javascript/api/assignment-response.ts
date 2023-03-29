@@ -56,5 +56,13 @@ export default {
       data: serialize(decamelizeKeys({ 'assignment_question_response': data })),
     }).then((response) => response.data.assignmentQuestionResponse as AssignmentQuestionUploadResponse);
   },
+  setAssignmentAsSubmitted(courseId: number, assignmentId: number) {
+    const path = `/api/internal/courses/${courseId}/assignments/${assignmentId}/assignment_responses`;
+
+    return api({
+      method: 'put',
+      url: path,
+    }).then((response) => response.data.assignmentResponse as AssignmentResponse);
+  },
 };
 
