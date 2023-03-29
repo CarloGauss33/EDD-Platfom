@@ -11,7 +11,7 @@ Rails.application.routes.draw do
           resources :students, only: [:create]
         end
         resources :assignments, only: [:index, :show] do
-          resources :assignment_responses, only: [:update]
+          resource :assignment_responses, only: [:update]
           resources :assignment_questions, only: [:create, :update, :destroy] do
             resource :assignment_question_response, only: [:update, :create]
           end

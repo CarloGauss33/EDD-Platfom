@@ -14,8 +14,7 @@ RSpec.describe 'Api::Internal::AssignmentResponsesControllers', type: :request d
 
     context 'when user is not logged in' do
       before do
-        put "/api/internal/courses/#{course.id}/assignments/#{assignment.id}/" +
-          "assignment_responses/#{assignment_response.id}"
+        put "/api/internal/courses/#{course.id}/assignments/#{assignment.id}/assignment_responses"
       end
 
       it 'returns 401' do
@@ -26,8 +25,7 @@ RSpec.describe 'Api::Internal::AssignmentResponsesControllers', type: :request d
     context 'when user is logged in' do
       before do
         sign_in user
-        put "/api/internal/courses/#{course.id}/assignments/#{assignment.id}/" +
-          "assignment_responses/#{assignment_response.id}"
+        put "/api/internal/courses/#{course.id}/assignments/#{assignment.id}/assignment_responses"
       end
 
       it 'returns 200' do
