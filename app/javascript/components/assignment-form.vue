@@ -164,7 +164,6 @@ onMounted(() => {
 
 function submitLastStep() {
   mutate();
-  downloadAllQuestions();
 }
 
 </script>
