@@ -3,6 +3,7 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
   before_action :check_assignment_enabled, only: %i[create update]
 
   def create
+    Rails.logger.info "assignment_response: #{assignment_response.inspect}"
     if assignment_question_response.present?
       assignment_question_response.update!(assignment_question_response_params)
       respond_with assignment_question_response.reload
@@ -57,9 +58,7 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
   end
 
   def assignment_enabled?
-    assignment.active? &&
-      assignment.start_date < Time.zone.now &&
-      assignment.end_date > Time.zone.now
+    assignment.active?
   end
 
   def check_assignment_enabled
