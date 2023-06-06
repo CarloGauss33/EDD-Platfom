@@ -16,6 +16,7 @@ class AssignmentResponse < ApplicationRecord
 
   delegate :name, to: :assignment, prefix: true
   delegate :email, to: :student, prefix: true
+  delegate :user, to: :student
 
   enum status: {
     pending: 0,

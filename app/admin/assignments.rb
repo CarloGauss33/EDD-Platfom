@@ -1,4 +1,6 @@
 ActiveAdmin.register Assignment do
+  decorate_with AssignmentDecorator
+
   belongs_to :course, optional: true
 
   permit_params :course,
@@ -14,6 +16,16 @@ ActiveAdmin.register Assignment do
                 :start_date,
                 :end_date,
                 assignment_questions_attributes: [:id, :question_type, :title, :description, :_destroy]
+
+  member_action :sync_submitted_responses, method: :post do
+    SyncSubmittedResponsesForAssignmentJob.perform_now(resource.id)
+
+    redirect_to resource_path, notice: "Assignment responses have been synced"
+  end
+
+  action_item :sync_submitted_responses, only: :show do
+    link_to "Sync Submitted Responses", sync_submitted_responses_admin_assignment_path(assignment), method: :post
+  end
 
   index do
     selectable_column
@@ -59,16 +71,38 @@ ActiveAdmin.register Assignment do
       row :kind
       row :start_date
       row :end_date
+      row :submitted_responses_count
+      row :non_submitted_responses_count
       row :created_at
       row :updated_at
     end
+
     panel "Assignment Questions" do
       table_for assignment.assignment_questions do
-        column :title do |o|
+        column :question do |o|
           link_to o.title, admin_assignment_assignment_question_path(assignment, o)
+        end
+        column :response_count do |o|
+          o.assignment_question_responses.count
         end
         column :description
         column :question_type
+      end
+    end
+
+    panel "Assignment Responses" do
+      paginated_collection(assignment.assignment_responses.page(params[:page]).per(10), download_links: false) do
+        table_for collection do
+          column :id do |o|
+            link_to o.id, admin_assignment_assignment_response_path(assignment, o)
+          end
+          column :user do |o|
+            link_to o.student_email, admin_user_path(o.user)
+          end
+          column :status
+          column :created_at
+          column :updated_at
+        end
       end
     end
   end
