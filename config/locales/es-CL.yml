@@ -34,9 +34,21 @@ es-CL:
         description: Descripción
         due_date: Fecha de entrega
         status: Estado
+        kind: Tipo
+        start_date: Fecha de inicio
+        end_date: Fecha de término
         canvas_assignment_id: ID de interrogación en Canvas
+        submitted_responses_count: Cantidad de respuestas entregadas
+        non_submitted_responses_count: Cantidad de respuestas no entregadas
         course_id: ID de curso
         assignment_type: Tipo de interrogación
         assignment_questions: Preguntas de interrogación
+      assignment_question:
+        question: Pregunta
+        question_type: Tipo de pregunta
+        options: Opciones
+        response_count: Cantidad de respuestas
+        correct_answer: Respuesta correcta
+        assignment_id: ID de interrogación
 
 
