@@ -1,0 +1,9 @@
+<div class="container mx-auto md:pt-4 pb-8 px-6">
+  <assignment-show
+    :assignment="<%= serialize_resource(@assignment) %>"
+    :assignment-response="<%= serialize_resource(@assignment_response) %>"
+    :assignment-question-responses="<%= serialize_resource(@assignment_question_responses) %>"
+    :user="<%= serialize_resource(current_user) %>"
+    :is-new-response="<%= @is_new_response %>"
+  ></assignment-show>
+</div>
