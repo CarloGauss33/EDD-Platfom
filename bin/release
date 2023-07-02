@@ -4,7 +4,7 @@ set -e
 
 echo 'Release Phase...'
 
-bundle exec rails db:migrate:with_data
+bundle exec rails db:migrate
 
 bundle exec rake telegram:bot:set_webhook RAILS_ENV=production
 
