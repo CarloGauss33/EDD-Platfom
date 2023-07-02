@@ -11,10 +11,10 @@ class SendAnswerSummaryJob < ApplicationJob
     )
 
     message_builder.add_recipient(:to, assignment_response.student_email)
-    message_builder.set_subject(
+    message_builder.subject(
       "[EDD] #{assignment_response.assignment_name} Entregada!"
     )
-    message_builder.set_text_body(
+    message_builder.body_text(
       "Hola #{assignment_response.user.first_name},\n\n" \
       "Tu entrega de la interrogación #{assignment_response.assignment_name} " \
       "ha sido recibida correctamente. Se adjunta una copia de las respuestas\n\n" \
