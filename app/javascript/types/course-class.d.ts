@@ -5,3 +5,5 @@ declare interface CourseClass {
   professorName: string;
   professorEmail: string;
 }
+
+export default CourseClass;

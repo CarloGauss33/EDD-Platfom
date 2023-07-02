@@ -7,3 +7,5 @@ declare interface Course {
   season: string;
   administrator_email: string;
 }
+
+export default Course;

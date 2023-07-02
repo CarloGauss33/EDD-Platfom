@@ -2,6 +2,8 @@ import { serialize } from 'object-to-formdata';
 import decamelizeKeys from '../utils/decamelize-for-files';
 import api from './index';
 
+import type { User } from '../types/user';
+
 export default {
   update(user: User) {
     const path = '/api/internal/users';

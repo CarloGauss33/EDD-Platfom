@@ -8,6 +8,7 @@ import './css/application.css';
 
 import AssignmentForm from './components/assignment-form.vue';
 import AssignmentsList from './components/assignments-list.vue';
+import AssignmentShow from './components/assignment-show.vue';
 import StudentForm from './components/student-form.vue';
 import UserProfile from './components/user-profile.vue';
 
@@ -20,6 +21,7 @@ import BaseInput from './components/base-input.vue';
 import BaseSelect from './components/base-select.vue';
 import BaseLabel from './components/base-label.vue';
 import BaseModal from './components/base-modal.vue';
+import BaseFileInput from './components/base-file-input.vue';
 
 import esCL from './locales/es-CL.json';
 
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       BaseButton,
       AssignmentForm,
       AssignmentsList,
+      AssignmentShow,
       StudentForm,
       UserProfile,
     },
@@ -63,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   app.component('BaseSelect', BaseSelect);
   app.component('BaseLabel', BaseLabel);
   app.component('BaseModal', BaseModal);
+  app.component('BaseFileInput', BaseFileInput);
 
   app.mount('#vue-app');
 

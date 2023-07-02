@@ -34,9 +34,13 @@ const props = withDefaults(defineProps<Props>(), {
   assignment: undefined,
 });
 
+const FAKE_LOADING_TIME = 300;
 const numberOfQuestions = computed(() => props.assignmentQuestions.length - 1);
 const ableToUpload = computed(() => props.assignment.status === 'active');
 const currentQuestionIndex = ref<number>(ableToUpload.value ? 0 : numberOfQuestions.value + 1);
+const currentStepAsDirectUpload = ref<boolean>(false);
+const isFakeLoading = ref<boolean>(false);
+
 const assignmentQuestionResponses = ref<AssignmentQuestionResponse[]>(
   new Array(numberOfQuestions.value + 1)
     .fill(0)
@@ -62,6 +66,9 @@ const anyNewResponse = computed(() => blobValues.value.some((blob) => blob !== '
 
 const { isLoading: isSubmitLoading, isSuccess: isSubmitSuccess, mutate } = useMutation({
   mutationFn: () => AssignmentResponseApi.setAssignmentAsSubmitted(props.courseId, props.assignment.id),
+  onSuccess: () => {
+    window.location.href = `/assignments/${props.assignment.id}/assignment_responses`;
+  },
 });
 
 function arrayIdFromAssignmentQuestionId(assignmentQuestionId: number) {
@@ -95,6 +102,11 @@ async function submitCurrentQuestion() {
     }
     currentQuestionIndex.value += 1;
 
+    isFakeLoading.value = true;
+    setTimeout(() => {
+      isFakeLoading.value = false;
+    }, FAKE_LOADING_TIME);
+
     return;
   }
   isSubmitting.value = true;
@@ -115,6 +127,10 @@ async function submitCurrentQuestion() {
     );
     currentQuestionIndex.value += 1;
     isSubmitting.value = false;
+    isFakeLoading.value = true;
+    setTimeout(() => {
+      isFakeLoading.value = false;
+    }, FAKE_LOADING_TIME);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     errorMessage.value = error?.message;
@@ -151,6 +167,12 @@ function goBackOneStep() {
   }
 
   currentQuestionIndex.value -= 1;
+  const HALF_FAKE_LOADING_TIME = FAKE_LOADING_TIME / 2;
+
+  isFakeLoading.value = true;
+  setTimeout(() => {
+    isFakeLoading.value = false;
+  }, HALF_FAKE_LOADING_TIME);
 }
 
 onMounted(() => {
@@ -169,140 +191,169 @@ function submitLastStep() {
 </script>
 <template>
   <div class="w-full rounded-lg bg-slate-100 px-4 py-6 text-justify shadow-lg">
-    <div class="mb-4 grid grid-cols-5 items-center">
-      <base-button
-        variant="tertiary"
-        class="col-span-1 py-1 text-2xl"
-        :href="currentQuestionIndex === 0 || !ableToUpload ? '/' : undefined"
-        @click="goBackOneStep"
-      >
-        ←
-      </base-button>
-
-      <div class="col-span-3 text-center">
-        <h2 class="text-2xl font-bold text-black">
-          {{
-            currentQuestionIndex > numberOfQuestions ?
-              'Resumen' :
-              props.assignmentQuestions[currentQuestionIndex].title
-          }}
-          {{ currentStepSubmitted ? " (Respondida)" : "" }}
-        </h2>
-      </div>
+    <div
+      v-if="isFakeLoading"
+      class="flex flex-col items-center justify-center gap-8"
+    >
+      <h1 class="text-2xl font-bold text-black">
+        Cargando...
+      </h1>
+      <div class="h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900" />
     </div>
-    <p
-      v-if="currentQuestionIndex <= numberOfQuestions"
-      class="mb-4 text-black md:text-lg text-sm"
-    >
-      Hola {{ user.firstName }}!, Agrega las capturas de tu interrogación, luego de agregarlas, presiona el botón de "Siguiente".
-    </p>
-    <base-notice
-      v-if="currentStepSubmitted"
-      class="mb-4 flex w-full flex-col gap-2 md:flex-row"
-    >
-      Ya tienes una respuesta registrada para esta pregunta, si deseas modificar, puedes volver a responder.
-      <base-button
-        variant="secondary"
-        size="sm"
-        :href="uploadResponses[currentQuestionIndex].file?.url"
-        target="_blank"
-      >
-        Ver respuesta
-      </base-button>
-    </base-notice>
-    <base-notice
-      v-if="hasError"
-      class="mb-4 w-full"
-    >
-      {{ errorMessage }}
-    </base-notice>
-
-    <div v-if="currentQuestionIndex > numberOfQuestions">
-      <div
-        v-if="!isLastStep"
-        class="flex flex-col justify-center"
-      >
-        <p class="mb-4 text-justify text-lg font-medium">
-          <span v-if="ableToUpload">
-            Tus respuestas fueron enviadas correctamente, puedes visualizarlas a continuación.
-            En caso de querer modificar alguna respuesta, puedes volver hacia atrás y realizarlo.
-          </span>
-          <span v-else>
-            La evaluación se encuentra cerrada, no puedes realizar más respuestas.
-          </span>
-        </p>
-
-        <h1 class="mb-8 text-center text-xl font-bold text-edd-blue-800">
-          Respuestas de {{ user.firstName }}
-        </h1>
-        <div
-          class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-4"
+    <div v-else>
+      <div class="mb-4 grid grid-cols-5 items-center">
+        <base-button
+          variant="tertiary"
+          class="col-span-1 py-1 text-2xl"
+          :href="currentQuestionIndex === 0 || !ableToUpload ? '/' : undefined"
+          @click="goBackOneStep"
         >
-          <a
-            v-for="(uploadedResponse, index) in uploadResponses"
-            :key="uploadedResponse.id"
-            :disabled="!uploadedResponse.file"
-            :href="uploadedResponse.file ? uploadedResponse.file.url : '#'"
-            :target="uploadedResponse.file ? '_blank' : ''"
-            class="flex flex-col items-center justify-center rounded-lg p-4 shadow-lg"
-            :class="{
-              'bg-edd-blue-100 text-edd-blue-800 hover:text-white hover:bg-edd-blue-800': uploadedResponse.file,
-              'cursor-default bg-slate-100 text-slate-500': !uploadedResponse.file,
-            }"
-          >
-            <h3 class="text-center text-xl font-semibold">
-              {{ props.assignmentQuestions[index].title }}
-            </h3>
-            <h2 class="text-center">
-              Estado: {{ uploadedResponse.file ? "Respondida" : "No respondida" }}
-            </h2>
-          </a>
+          ←
+        </base-button>
+
+        <div class="col-span-3 text-center">
+          <h2 class="text-2xl font-bold text-black">
+            {{
+              currentQuestionIndex > numberOfQuestions ?
+                'Resumen' :
+                props.assignmentQuestions[currentQuestionIndex].title
+            }}
+            {{ currentStepSubmitted ? " (Respondida)" : "" }}
+          </h2>
         </div>
+      </div>
+      <p
+        v-if="currentQuestionIndex <= numberOfQuestions"
+        class="mb-4 text-sm text-black md:text-lg"
+      >
+        Hola {{ user.firstName }}!, Puedes sacar fotos haciendo click en "Agregar Captura"
+      </p>
+      <base-notice
+        v-if="currentStepSubmitted"
+        class="mb-4 flex w-full flex-col gap-2 md:flex-row"
+      >
+        Ya tienes una respuesta registrada para esta pregunta, si deseas modificar, puedes volver a responder.
         <base-button
-          v-if="ableToUpload"
-          :disabled="isSubmitting || isSubmitLoading || isSubmitSuccess"
-          class="mb-4"
-          @click.prevent="submitLastStep"
-        >
-          Terminar interrogación
-        </base-button>
-        <base-button
-          v-if="isSubmitSuccess || !ableToUpload"
-          :disabled="isSubmitting || !anyNewResponse"
-          href="/"
           variant="secondary"
+          size="sm"
+          :href="uploadResponses[currentQuestionIndex].file?.url"
+          target="_blank"
         >
-          Volver al inicio
+          Ver respuesta
         </base-button>
-        <h2
-          v-if="isSubmitSuccess"
-          class="mt-4 text-center text-xl font-bold text-edd-blue-800"
+      </base-notice>
+      <base-notice
+        v-if="hasError"
+        class="mb-4 w-full"
+      >
+        {{ errorMessage }}
+      </base-notice>
+
+      <base-button
+        size="sm"
+        class="mb-4 w-full md:w-auto"
+        variant="secondary"
+        @click.prevent="currentStepAsDirectUpload = !currentStepAsDirectUpload"
+      >
+        Cambiar a {{ currentStepAsDirectUpload ? "Solo a escanear" : "Subida PDF de forma directa" }}
+      </base-button>
+      <div v-if="currentQuestionIndex > numberOfQuestions">
+        <div
+          v-if="!isLastStep"
+          class="flex flex-col justify-center"
         >
-          Tus respuestas fueron enviadas correctamente!
-        </h2>
-        <div v-if="isSubmitLoading">
-          Enviando...
+          <p class="mb-4 text-justify font-medium">
+            <span v-if="ableToUpload">
+              Tus respuestas fueron enviadas correctamente
+              En caso de querer modificar alguna respuesta, puedes volver hacia atrás y realizarlo.
+            </span>
+            <span v-else>
+              La evaluación se encuentra cerrada, no puedes realizar más respuestas.
+            </span>
+          </p>
+
+          <base-button
+            v-if="ableToUpload"
+            :disabled="isSubmitting || isSubmitLoading || isSubmitSuccess"
+            class="mb-8"
+            @click.prevent="submitLastStep"
+          >
+            Terminar interrogación
+          </base-button>
+          <base-button
+            v-else
+            :href="`/assignments/${props.assignment.id}/assignment_responses`"
+            class="mb-8"
+            variant="secondary"
+          >
+            Ir al detalle de la entrega
+          </base-button>
+
+          <h1 class="mb-8 text-left text-lg font-bold text-edd-blue-800">
+            Resumen Respuestas
+          </h1>
+          <div
+            class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-4"
+          >
+            <a
+              v-for="(uploadedResponse, index) in uploadResponses"
+              :key="uploadedResponse.id"
+              :disabled="!uploadedResponse.file"
+              :href="uploadedResponse.file ? uploadedResponse.file.url : '#'"
+              :target="uploadedResponse.file ? '_blank' : ''"
+              class="flex flex-col items-center justify-center rounded-lg p-4 shadow-lg"
+              :class="{
+                'bg-edd-blue-100 text-edd-blue-800 hover:text-white hover:bg-edd-blue-800': uploadedResponse.file,
+                'cursor-default bg-slate-100 text-slate-500': !uploadedResponse.file,
+              }"
+            >
+              <h3 class="text-center text-xl font-semibold">
+                {{ props.assignmentQuestions[index].title }}
+              </h3>
+              <h2 class="text-center">
+                Estado: {{ uploadedResponse.file ? "Respondida" : "No respondida" }}
+              </h2>
+            </a>
+          </div>
+          <base-button
+            v-if="isSubmitSuccess || !ableToUpload"
+            :disabled="isSubmitting || !anyNewResponse"
+            href="/"
+            variant="secondary"
+          >
+            Volver al inicio
+          </base-button>
+          <h2
+            v-if="isSubmitSuccess"
+            class="mt-4 text-center text-xl font-bold text-edd-blue-800"
+          >
+            Tus respuestas fueron enviadas correctamente!
+          </h2>
+          <div v-if="isSubmitLoading">
+            Enviando...
+          </div>
+        </div>
+        <div v-else>
+          Cargando...
         </div>
       </div>
       <div v-else>
-        Cargando...
-      </div>
-    </div>
-    <div v-else>
-      <div
-        v-for="(question, index) in props.assignmentQuestions"
-        :key="index"
-      >
-        <base-scanner
-          v-if="index === currentQuestionIndex"
-          v-model="blobValues[index]"
-          :min-attachments="1"
-          :already-scanned="stepSubmitted(index)"
-          :is-submitting="isSubmitting"
-          :number-of-steps="numberOfQuestions + 1"
-          :current-step="currentQuestionIndex + 1"
-          @submit="submitCurrentQuestion"
-        />
+        <div
+          v-for="(question, index) in props.assignmentQuestions"
+          :key="index"
+        >
+          <base-scanner
+            v-if="index === currentQuestionIndex"
+            v-model="blobValues[index]"
+            :min-attachments="1"
+            :already-scanned="stepSubmitted(index)"
+            :is-submitting="isSubmitting"
+            :number-of-steps="numberOfQuestions + 1"
+            :current-step="currentQuestionIndex + 1"
+            :direct-upload-enabled="currentStepAsDirectUpload"
+            @submit="submitCurrentQuestion"
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -32,7 +32,9 @@ export interface AssignmentQuestion {
 }
 
 export interface AssignmentQuestionResponse {
+  id?: number;
   score?: number;
+  assignmentQuestionTitle?: string;
   description?: string;
   file?: File | Blob;
 }

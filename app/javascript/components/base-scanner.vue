@@ -19,7 +19,10 @@ interface Props {
   isSubmitting?: boolean;
   numberOfSteps?: number;
   currentStep?: number;
+  directUploadEnabled?: boolean;
 }
+
+const storedPDF = ref<File | null>(null);
 
 const props = withDefaults(defineProps<Props>(), {
   minAttachments: 1,
@@ -29,6 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
   numberOfSteps: 1,
   currentStep: 1,
   isSubmitting: false,
+  directUploadEnabled: false,
 });
 
 const emit = defineEmits<{(e: 'update:modelValue', value: any): void,
@@ -43,6 +47,14 @@ const isAnyInputRendering = computed(() => inputRendering.value.some(x => x));
 const isAnyImageFieldOccupied = computed(() => images.value.some(x => x));
 const ableToSubmit = computed(() => !isAnyInputRendering.value && isAnyImageFieldOccupied.value);
 const isLoading = computed(() => props.isSubmitting || isAnyInputRendering.value);
+
+const loadingMessage = computed(() => {
+  if (props.directUploadEnabled) {
+    return 'Guardando respuesta...';
+  }
+
+  return 'Generando PDF...';
+});
 
 const skipMessage = computed(() => {
   if (props.alreadyScanned) {
@@ -125,9 +137,25 @@ async function onFileChange(event: Event, index: number) {
   });
 }
 
+async function handleFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (!file) {
+    return;
+  }
+
+  storedPDF.value = file;
+  let blob = await file.arrayBuffer();
+  blob = new Uint8Array(blob);
+  emit('update:modelValue', blob);
+}
+
 </script>
 <template>
-  <div class="mb-2 flex flex-col items-center gap-x-2 md:grid md:grid-cols-4">
+  <div
+    v-if="!directUploadEnabled"
+    class="mb-2 flex flex-col items-center gap-x-2 md:grid md:grid-cols-4"
+  >
     <div
       v-for="i in numberOfAttachments"
       :key="i"
@@ -168,11 +196,19 @@ async function onFileChange(event: Event, index: number) {
       >
     </div>
   </div>
+  <base-file-input
+    v-else
+    v-model="storedPDF"
+    :disabled="isLoading"
+    class="py-8 md:px-8"
+    accept="application/pdf"
+    @change="handleFileUpload"
+  />
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <base-button
       variant="secondary"
       type="button"
-      :disabled="isAnyInputRendering"
+      :disabled="isAnyInputRendering || directUploadEnabled"
       @click="numberOfAttachments = numberOfAttachments + 1"
     >
       Añadir más archivos
@@ -190,6 +226,6 @@ async function onFileChange(event: Event, index: number) {
     class="mt-5 w-full opacity-70"
     variant="secondary"
   >
-    Procesando imágenes...
+    {{ loadingMessage }}
   </base-notice>
 </template>
