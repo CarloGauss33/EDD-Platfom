@@ -42,7 +42,6 @@ if Rails.env.development?
   end
 
   Annotate.load_tasks
-
   data_migrate_tasks = %w(
     db:migrate:with_data
     db:migrate:up:with_data

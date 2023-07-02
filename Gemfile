@@ -4,7 +4,6 @@ gem 'activeadmin_addons'
 gem 'aws-sdk-s3', '~> 1.0'
 gem 'blurhash', '~> 0.1'
 gem 'bootsnap', require: false
-gem 'data_migrate'
 gem 'devise'
 gem 'devise-i18n'
 gem 'draper', '~> 3.1'

@@ -143,9 +143,6 @@ GEM
     concurrent-ruby (1.2.2)
     content_disposition (1.0.0)
     crass (1.0.6)
-    data_migrate (10.0.2)
-      activerecord (>= 6.0)
-      railties (>= 6.0)
     date (3.3.3)
     debug_inspector (1.1.0)
     devise (4.9.2)
@@ -598,7 +595,6 @@ DEPENDENCIES
   blurhash (~> 0.1)
   bootsnap
   capybara
-  data_migrate
   devise
   devise-i18n
   dotenv-rails
