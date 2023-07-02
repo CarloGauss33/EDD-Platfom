@@ -43,8 +43,10 @@ class AssignmentResponse < ApplicationRecord
     return unless submitted?
 
     NotifyInterrogationUploadJob.perform_now(id)
-  rescue
-    Rails.logger.error("Error notifying upload: #{e.message}")
+    SendAnswerSummaryJob.perform_now(id)
+  rescue StandardError => e
+    Rails.logger.error e.message
+    Rails.logger.error "Error sending notification for assignment response #{id}"
   end
 end
 

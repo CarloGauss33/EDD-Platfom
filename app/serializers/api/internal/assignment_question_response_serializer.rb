@@ -6,7 +6,8 @@ class Api::Internal::AssignmentQuestionResponseSerializer < ActiveModel::Seriali
     :assignment_question_id,
     :description,
     :file,
-    :comment
+    :comment,
+    :assignment_question_title
   )
 
   def file

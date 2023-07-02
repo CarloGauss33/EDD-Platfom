@@ -9,6 +9,7 @@ class AssignmentQuestionResponse < ApplicationRecord
   validates :assignment_question, uniqueness: { scope: :assignment_response }
 
   delegate :student, to: :assignment_response
+  delegate :title, to: :assignment_question, prefix: true
 
   enum status: {
     pending: 0,

@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   end
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  resources :assignments, only: [:index, :show]
+  resources :assignments, only: [:index, :show] do
+    resource :assignment_responses, only: [:show, :update]
+  end
   resources :courses, only: [:index, :show] do
     resources :students, only: [:new]
   end
