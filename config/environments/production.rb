@@ -14,15 +14,11 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: host }
-  config.action_mailer.smtp_settings = {
-    address: ENV["SMTP_ADDRESS"],
-    port: ENV["SMTP_PORT"],
-    user_name: ENV["SMTP_USERNAME"],
-    password: ENV["SMTP_PASSWORD"],
-    authentication: "plain",
-    enable_starttls_auto: true
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: ENV['MAILGUN_API_KEY'],
+    domain: ENV['MAILGUN_DOMAIN']
   }
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
