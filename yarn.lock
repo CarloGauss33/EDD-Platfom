@@ -7461,6 +7461,11 @@ vee-validate@^4.7.4:
   dependencies:
     "@vue/devtools-api" "^6.1.4"
 
+vue-confetti-explosion@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vue-confetti-explosion/-/vue-confetti-explosion-1.0.2.tgz#84b873d400cf0301814bdd71329daa1ac741fd86"
+  integrity sha512-80OboM3/6BItIoZ6DpNcZFqGpF607kjIVc5af56oKgtFmt5yWehvJeoYhkzYlqxrqdBe0Ko4Ie3bWrmLau+dJw==
+
 vue-demi@^0.13.11:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
@@ -7502,6 +7507,16 @@ vue-loader@^16.8.3:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
+
+vue-loaders@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/vue-loaders/-/vue-loaders-4.1.4.tgz#2fc1d806159dcb9e75a7a0a6741b04fb25ba17e2"
+  integrity sha512-YlT9js3/NSQr8CTebto0NM9jaUl+kkGR3HgdCvoDV2H3NLzCrzSUxzo+VkPgPzBrOs8s40Bad+OX1XOZexeeVQ==
+
+vue-spinner@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vue-spinner/-/vue-spinner-1.0.4.tgz#0e794d9d93acb23b5b6564042157a531e7ce413b"
+  integrity sha512-GNG2F+8BLX201JT/jUX+84Gsi3ZteVQwt9K7mues3ts9FcQ95dGn7uu6a5ndSxdYYUEzfh1KngZiOE0u+l4itA==
 
 vue-template-compiler@^2.7.14:
   version "2.7.14"
