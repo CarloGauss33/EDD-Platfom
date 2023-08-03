@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_06_235452) do
+ActiveRecord::Schema.define(version: 2023_08_03_205506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,28 @@ ActiveRecord::Schema.define(version: 2023_02_06_235452) do
     t.index ["course_id"], name: "index_course_classes_on_course_id"
   end
 
+  create_table "course_information_contents", force: :cascade do |t|
+    t.bigint "course_information_module_id", null: false
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.boolean "visible", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_information_module_id"], name: "index_course_information_contents_on_module_id"
+  end
+
+  create_table "course_information_modules", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.boolean "visible", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_information_modules_on_course_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -203,6 +225,8 @@ ActiveRecord::Schema.define(version: 2023_02_06_235452) do
   add_foreign_key "assignments", "courses"
   add_foreign_key "course_class_enrollments", "course_classes"
   add_foreign_key "course_classes", "courses"
+  add_foreign_key "course_information_contents", "course_information_modules"
+  add_foreign_key "course_information_modules", "courses"
   add_foreign_key "oauth_providers", "users"
   add_foreign_key "students", "course_classes"
   add_foreign_key "students", "users"
