@@ -43,11 +43,11 @@ if Rails.env.development?
 
   Annotate.load_tasks
   data_migrate_tasks = %w(
-    db:migrate:with_data
-    db:migrate:up:with_data
-    db:migrate:down:with_data
-    db:migrate:redo:with_data
-    db:rollback:with_data
+    db:migrate
+    db:migrate:up
+    db:migrate:down
+    db:migrate:redo
+    db:rollback
   )
 
   data_migrate_tasks.each do |task|
