@@ -1,4 +1,7 @@
 es-CL:
+  active_admin:
+    scopes:
+      with_active_semester: 'Semestre activo'
   date:
       formats:
         short_date: '%-d de %B'

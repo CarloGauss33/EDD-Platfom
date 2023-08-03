@@ -27,6 +27,9 @@ ActiveAdmin.register Assignment do
     link_to "Sync Submitted Responses", sync_submitted_responses_admin_assignment_path(assignment), method: :post
   end
 
+  scope :with_active_semester, default: true
+  scope :all
+
   index do
     selectable_column
     id_column

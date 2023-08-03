@@ -10,6 +10,9 @@ ActiveAdmin.register User do
                 :rut,
                 :github_username
 
+  scope :with_active_semester, default: true
+  scope :all
+
   index do
     selectable_column
     id_column
