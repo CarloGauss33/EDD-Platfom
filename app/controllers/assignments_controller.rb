@@ -2,8 +2,9 @@ class AssignmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @assignments = current_user.assignments.order(end_date: :desc).includes(:course)
+    @assignments = active_courses_assignments.order(end_date: :desc).includes(:course)
     @submitted_assignment_responses = submitted_assignment_responses
+    @on_active_course = current_user.on_active_course?
   end
 
   def show
@@ -17,6 +18,10 @@ class AssignmentsController < ApplicationController
 
   def assignment
     @assignment = current_user.assignments.find(params[:id])
+  end
+
+  def active_courses_assignments
+    @active_courses_assignments = current_user.assignments.on_active_course
   end
 
   def assignment_questions

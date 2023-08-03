@@ -12,6 +12,10 @@ class Assignment < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :course_id }
   validate :unique_active_exam_on_course?, on: :create
 
+  def self.with_active_semester
+    where(course: Course.active).distinct
+  end
+
   enum status: {
     pending: 0,
     active: 1,
@@ -25,6 +29,10 @@ class Assignment < ApplicationRecord
     quiz: 2,
     other: 3
   }
+
+  def self.on_active_course
+    joins(:course).where(courses: { status: :active }).distinct
+  end
 
   scope :active, -> { where(status: :active) }
 

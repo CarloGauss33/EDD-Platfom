@@ -13,6 +13,16 @@ class User < ApplicationRecord
   has_many :course_classes, through: :students
   has_many :oauth_providers, dependent: :destroy
 
+  def self.with_active_semester
+    joins(:students, :course_classes)
+      .where(course_classes: { course: Course.active })
+      .distinct
+  end
+
+  def on_active_course?
+    students.joins(:course_class).where(course_classes: { course: Course.active }).any?
+  end
+
   def assignments
     Assignment.where(course: course_classes.map(&:course))
   end
