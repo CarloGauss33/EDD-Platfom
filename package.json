@@ -32,6 +32,7 @@
     "image-conversion": "^2.1.1",
     "jspdf": "^2.5.1",
     "mini-css-extract-plugin": "^2.7.2",
+    "mjml": "^4.14.1",
     "object-to-formdata": "^4.4.2",
     "postcss": "^8",
     "postcss-loader": "^7.0.2",

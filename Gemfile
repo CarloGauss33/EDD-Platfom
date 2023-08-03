@@ -73,3 +73,4 @@ group :production do
   gem 'heroku-stage'
   gem 'rack-timeout'
 end
+gem "mjml-rails"
