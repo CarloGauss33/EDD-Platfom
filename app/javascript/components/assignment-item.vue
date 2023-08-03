@@ -22,6 +22,10 @@ const computedStatus = computed(() => {
 });
 
 function formatDate(date: string) {
+  if (!date) {
+    return 'No definido';
+  }
+
   return format(Date.parse(date), 'dd MMMM - HH:mm', { locale: es });
 }
 </script>
