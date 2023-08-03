@@ -1,0 +1,12 @@
+<mj-section>
+  <mj-column>
+    <mj-text>
+    <p> Hola <%= @user.first_name %> </p>
+
+    <p> La entrega a la interrogación <%= @assignment_response.assignment_name %> ha
+    sido recibida correctamente. Te adjuntamos una copia con tus respuestas. </p>
+
+    <p> Exito con todo! </p>
+    </mj-text>
+  </mj-column>
+</mj-section>
