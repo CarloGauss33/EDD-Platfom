@@ -17,6 +17,8 @@ class NotifyInterrogationUploadJob < ApplicationJob
   def body
     {
       'email' => assignment_response.student_email,
+      'name' => assignment_response.user.names,
+      'last_name' => assignment_response.user.last_names,
       'assignment_title' => assignment_response.assignment_name,
       'date' => assignment_response.created_at.strftime('%m/%d/%Y %H:%M:%S')
     }
