@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
   minAttachments: 1,
   downloadAfterScan: false,
   attachmentBaseName: 'attachment',
-  submitLabel: 'Guardar y enviar',
+  submitLabel: 'Enviar',
   numberOfSteps: 1,
   currentStep: 1,
   isSubmitting: false,
@@ -69,7 +69,7 @@ const uploadMessage = computed(() => {
     return 'Actualizar respuesta';
   }
 
-  return props.submitLabel;
+  return `Enviar pregunta ${props.currentStep}`;
 });
 
 async function generatePDF() {
@@ -180,9 +180,10 @@ async function handleFileUpload(event: Event) {
         <div v-else>
           <div class="flex h-96 w-64 flex-col items-center justify-center rounded-md bg-edd-blue-100 hover:cursor-pointer">
             <i class="fas fa-file-upload text-4xl text-edd-blue-800" />
-            <span class="p-2 text-2xl text-edd-blue-800">
-              Agregar Captura
-            </span>
+            <div class="p-2 text-center  text-edd-blue-800 flex flex-col">
+              <p class="text-2xl"> Añadir captura</p>
+              <p class="text-lg"> (Pregunta {{ currentStep }})</p>
+            </div>
           </div>
         </div>
       </label>
@@ -218,7 +219,7 @@ async function handleFileUpload(event: Event) {
       :disabled="isLoading"
       @click="submit"
     >
-      {{ ableToSubmit ? uploadMessage : skipMessage }} ({{ props.currentStep }}/{{ props.numberOfSteps }})
+      {{ ableToSubmit ? uploadMessage : skipMessage }}
     </base-button>
   </div>
   <base-notice

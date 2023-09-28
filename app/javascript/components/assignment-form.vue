@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, withDefaults, computed, ref, onMounted } from 'vue';
+import { defineProps, withDefaults, computed, ref, watch, onMounted } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import AssignmentResponseApi, {
   type AssignmentQuestionUploadResponse,
@@ -188,6 +188,12 @@ function submitLastStep() {
   mutate();
 }
 
+watch(currentQuestionIndex, (val: number) => {
+  if (val > numberOfQuestions.value && ableToUpload.value) {
+    submitLastStep();
+  }
+});
+
 </script>
 <template>
   <div class="w-full rounded-lg bg-slate-100 px-4 py-6 text-justify shadow-lg">
@@ -203,6 +209,7 @@ function submitLastStep() {
     <div v-else>
       <div class="mb-4 grid grid-cols-5 items-center">
         <base-button
+          v-if="currentQuestionIndex <= numberOfQuestions"
           variant="tertiary"
           class="col-span-1 py-1 text-2xl"
           :href="currentQuestionIndex === 0 || !ableToUpload ? '/' : undefined"
@@ -211,11 +218,14 @@ function submitLastStep() {
           ←
         </base-button>
 
-        <div class="col-span-3 text-center">
+        <div
+          class="col-span-3 text-center"
+          :class="{ 'col-span-5 mb-16': currentQuestionIndex > numberOfQuestions }"
+        >
           <h2 class="text-2xl font-bold text-black">
             {{
               currentQuestionIndex > numberOfQuestions ?
-                'Resumen' :
+                'Enviando Respuestas' :
                 props.assignmentQuestions[currentQuestionIndex].title
             }}
             {{ currentStepSubmitted ? " (Respondida)" : "" }}
@@ -250,6 +260,7 @@ function submitLastStep() {
       </base-notice>
 
       <base-button
+        v-if="currentQuestionIndex <= numberOfQuestions"
         size="sm"
         class="mb-4 w-full md:w-auto"
         variant="secondary"
@@ -260,78 +271,15 @@ function submitLastStep() {
       <div v-if="currentQuestionIndex > numberOfQuestions">
         <div
           v-if="!isLastStep"
-          class="flex flex-col justify-center"
+          class="flex w-full flex-col items-center justify-center"
         >
-          <p class="mb-4 text-justify font-medium">
-            <span v-if="ableToUpload">
-              Tus respuestas fueron enviadas correctamente
-              En caso de querer modificar alguna respuesta, puedes volver hacia atrás y realizarlo.
-            </span>
-            <span v-else>
-              La evaluación se encuentra cerrada, no puedes realizar más respuestas.
-            </span>
-          </p>
-
-          <base-button
-            v-if="ableToUpload"
-            :disabled="isSubmitting || isSubmitLoading || isSubmitSuccess"
-            class="mb-8"
-            @click.prevent="submitLastStep"
-          >
-            Terminar interrogación
-          </base-button>
-          <base-button
-            v-else
-            :href="`/assignments/${props.assignment.id}/assignment_responses`"
-            class="mb-8"
-            variant="secondary"
-          >
-            Ir al detalle de la entrega
-          </base-button>
-
-          <h1 class="mb-8 text-left text-lg font-bold text-edd-blue-800">
-            Resumen Respuestas
-          </h1>
           <div
-            class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-4"
-          >
-            <a
-              v-for="(uploadedResponse, index) in uploadResponses"
-              :key="uploadedResponse.id"
-              :disabled="!uploadedResponse.file"
-              :href="uploadedResponse.file ? uploadedResponse.file.url : '#'"
-              :target="uploadedResponse.file ? '_blank' : ''"
-              class="flex flex-col items-center justify-center rounded-lg p-4 shadow-lg"
-              :class="{
-                'bg-edd-blue-100 text-edd-blue-800 hover:text-white hover:bg-edd-blue-800': uploadedResponse.file,
-                'cursor-default bg-slate-100 text-slate-500': !uploadedResponse.file,
-              }"
-            >
-              <h3 class="text-center text-xl font-semibold">
-                {{ props.assignmentQuestions[index].title }}
-              </h3>
-              <h2 class="text-center">
-                Estado: {{ uploadedResponse.file ? "Respondida" : "No respondida" }}
-              </h2>
-            </a>
-          </div>
-          <base-button
-            v-if="isSubmitSuccess || !ableToUpload"
-            :disabled="isSubmitting || !anyNewResponse"
-            href="/"
-            variant="secondary"
-          >
-            Volver al inicio
-          </base-button>
-          <h2
-            v-if="isSubmitSuccess"
-            class="mt-4 text-center text-xl font-bold text-edd-blue-800"
-          >
-            Tus respuestas fueron enviadas correctamente!
-          </h2>
-          <div v-if="isSubmitLoading">
-            Enviando...
-          </div>
+            v-if="ableToUpload"
+            class="h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900"
+          />
+          <span v-else>
+            La evaluación se encuentra cerrada, no puedes realizar más respuestas.
+          </span>
         </div>
         <div v-else>
           Cargando...
