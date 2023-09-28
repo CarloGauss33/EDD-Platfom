@@ -6,7 +6,7 @@ class AssignmentResponseMailer < ApplicationMailer
     return if assignment_response.blank?
 
     assignment_response.assignment_question_responses.each do |response|
-      attachments[response.file.original_filename] = response.file.download
+      attachments[response.file.original_filename] = response.file.read
     end
 
     mail(
