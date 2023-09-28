@@ -6,6 +6,4 @@ echo 'Release Phase...'
 
 bundle exec rails db:migrate
 
-bundle exec rake telegram:bot:set_webhook RAILS_ENV=production
-
 echo 'Release Phase: OK'
