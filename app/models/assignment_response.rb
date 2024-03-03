@@ -42,11 +42,8 @@ class AssignmentResponse < ApplicationRecord
   def notify_state_change
     return unless submitted?
 
-    NotifyInterrogationUploadJob.perform_now(id)
+    NotifyInterrogationUploadJob.perform_later(id)
     AssignmentResponseMailer.notify_user_response(self).deliver
-  rescue StandardError => e
-    Rails.logger.error e.message
-    Rails.logger.error "Error sending notification for assignment response #{id}"
   end
 end
 

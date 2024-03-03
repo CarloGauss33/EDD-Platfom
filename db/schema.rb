@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_03_202428) do
+ActiveRecord::Schema.define(version: 2024_03_03_205402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 2024_03_03_202428) do
   create_table "assignment_question_responses", force: :cascade do |t|
     t.bigint "assignment_response_id", null: false
     t.bigint "assignment_question_id", null: false
-    t.float "score", default: 0.0
     t.string "description"
     t.jsonb "file_data", default: {}
     t.integer "status", default: 0
@@ -104,7 +103,6 @@ ActiveRecord::Schema.define(version: 2024_03_03_202428) do
     t.string "professor_email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "enrollments_loaded_at"
     t.boolean "default_inscription", default: false
     t.index ["course_id"], name: "index_course_classes_on_course_id"
   end

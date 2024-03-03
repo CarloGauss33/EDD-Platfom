@@ -31,7 +31,6 @@ end
 #  id                     :bigint(8)        not null, primary key
 #  assignment_response_id :bigint(8)        not null
 #  assignment_question_id :bigint(8)        not null
-#  score                  :float            default(0.0)
 #  description            :string
 #  file_data              :jsonb
 #  status                 :integer          default("pending")

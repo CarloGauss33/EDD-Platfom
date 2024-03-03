@@ -18,16 +18,15 @@ end
 #
 # Table name: course_classes
 #
-#  id                    :bigint(8)        not null, primary key
-#  course_id             :bigint(8)        not null
-#  section               :integer
-#  canvas_course_id      :string
-#  professor_name        :string
-#  professor_email       :string
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  enrollments_loaded_at :datetime
-#  default_inscription   :boolean          default(FALSE)
+#  id                  :bigint(8)        not null, primary key
+#  course_id           :bigint(8)        not null
+#  section             :integer
+#  canvas_course_id    :string
+#  professor_name      :string
+#  professor_email     :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  default_inscription :boolean          default(FALSE)
 #
 # Indexes
 #
