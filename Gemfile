@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 gem 'activeadmin', '~> 2.9'
 gem 'activeadmin_addons'
+gem 'activerecord-import'
 gem 'aws-sdk-s3', '~> 1.0'
 gem 'blurhash', '~> 0.1'
 gem 'bootsnap', require: false

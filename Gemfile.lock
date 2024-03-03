@@ -74,6 +74,8 @@ GEM
     activerecord (6.1.7.4)
       activemodel (= 6.1.7.4)
       activesupport (= 6.1.7.4)
+    activerecord-import (1.5.1)
+      activerecord (>= 4.2)
     activestorage (6.1.7.4)
       actionpack (= 6.1.7.4)
       activejob (= 6.1.7.4)
@@ -564,6 +566,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin (~> 2.9)
   activeadmin_addons
+  activerecord-import
   annotate (~> 3.0)
   aws-sdk-s3 (~> 1.0)
   better_errors
