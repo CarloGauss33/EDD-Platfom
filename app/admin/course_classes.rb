@@ -16,16 +16,6 @@ ActiveAdmin.register CourseClass do
             method: :post)
   end
 
-  member_action :sync_students, method: :post do
-    SyncEnrollmentAndCourseClassStudentsJob.perform_now(resource.id)
-
-    redirect_to admin_course_course_class_path(resource.course, resource), notice: 'Estudiantes sincronizados correctamente'
-  end
-
-  member_action :upload_enrollments, method: :get do
-    render 'admin/csv/upload_enrollments'
-  end
-
   member_action :load_enrollments, method: :post do
     if params[:csv].present? && params[:csv][:file].present?
       LoadCourseClassEnrollmentsCsvJob.perform_now(resource.id, params[:csv][:file])
