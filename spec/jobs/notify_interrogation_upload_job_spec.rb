@@ -32,7 +32,9 @@ RSpec.describe NotifyInterrogationUploadJob, type: :job do
           .with(
             'email' => assignment_response.student_email,
             'assignment_title' => assignment_response.assignment_name,
-            'date' => assignment_response.created_at.strftime('%m/%d/%Y %H:%M:%S')
+            'date' => assignment_response.created_at.strftime('%m/%d/%Y %H:%M:%S'),
+            'last_name' => assignment_response.user.last_names,
+            'name' => assignment_response.user.names
           )
       end
     end
