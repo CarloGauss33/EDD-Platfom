@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def oauth_enabled?
-    ConfigVariable.fetch('OAUTH_ENABLED', false)
+    ENV.fetch('OAUTH_ENABLED', 'false') == 'true'
   end
 
   private
