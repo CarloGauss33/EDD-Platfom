@@ -9,24 +9,6 @@ RSpec.describe Assignment, type: :model do
     end
   end
 
-  describe 'Validations' do
-    it 'validates uniqueness of active scope to course_id' do
-      course = create(:course)
-      create(:assignment, course: course, status: :active)
-      expect(build(:assignment, course: course, status: :active)).not_to be_valid
-    end
-
-    it 'validates presence of name' do
-      expect(build(:assignment, name: nil)).not_to be_valid
-    end
-
-    it 'validates uniqueness of name scoped to course_id' do
-      course = create(:course)
-      create(:assignment, course: course, name: 'Test')
-      expect(build(:assignment, course: course, name: 'Test')).not_to be_valid
-    end
-  end
-
   describe 'Enums' do
     it { is_expected.to define_enum_for(:status) }
   end

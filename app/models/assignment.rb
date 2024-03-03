@@ -1,16 +1,13 @@
 class Assignment < ApplicationRecord
+  after_create_commit :create_assignment_responses
   before_save :set_start_date_on_active
   before_save :set_end_date_on_completed
-  after_create_commit :create_assignment_responses
 
   has_many :assignment_questions, dependent: :destroy
   accepts_nested_attributes_for :assignment_questions, allow_destroy: true
 
   belongs_to :course
   has_many :assignment_responses, dependent: :destroy
-
-  validates :name, presence: true, uniqueness: { scope: :course_id }
-  validate :unique_active_exam_on_course?, on: :create
 
   def self.with_active_semester
     where(course: Course.active).distinct
@@ -25,9 +22,8 @@ class Assignment < ApplicationRecord
 
   enum kind: {
     exam: 0,
-    homework: 1,
-    quiz: 2,
-    other: 3
+    quiz: 1,
+    other: 2
   }
 
   def self.on_active_course
@@ -37,13 +33,6 @@ class Assignment < ApplicationRecord
   scope :active, -> { where(status: :active) }
 
   private
-
-  def unique_active_exam_on_course?
-    return unless exam? && active?
-    return unless course.assignments.exam.active.count.positive?
-
-    errors.add(:course, "can't have more than one active exam")
-  end
 
   def set_start_date_on_active
     return unless active? && start_date.nil?
@@ -58,9 +47,9 @@ class Assignment < ApplicationRecord
   end
 
   def create_assignment_responses
-    course.students.each do |student|
-      assignment_responses.create(student: student)
-    end
+    Assignment::CreatePendingResponsesJob.perform_now(
+      assignment: self
+    )
   end
 end
 
