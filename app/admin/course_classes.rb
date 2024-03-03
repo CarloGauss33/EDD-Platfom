@@ -6,26 +6,6 @@ ActiveAdmin.register CourseClass do
     link_to 'Ver estudiantes', admin_course_class_students_path(course_class)
   end
 
-  action_item :upload_enrollments, only: :show do
-    link_to 'Subir lista de estudiantes', action: :upload_enrollments
-  end
-
-  action_item :sync_students, only: :show do
-    link_to('Sincronizar estudiantes con lista',
-            sync_students_admin_course_course_class_path(course, course_class),
-            method: :post)
-  end
-
-  member_action :load_enrollments, method: :post do
-    if params[:csv].present? && params[:csv][:file].present?
-      LoadCourseClassEnrollmentsCsvJob.perform_now(resource.id, params[:csv][:file])
-
-      redirect_to admin_course_course_class_path(resource.course, resource), notice: 'Lista de estudiantes subida correctamente'
-    else
-      redirect_to admin_course_course_class_path(resource.course, resource), alert: 'No se ha subido ningún archivo'
-    end
-  end
-
   index do
     selectable_column
     id_column
@@ -65,7 +45,6 @@ ActiveAdmin.register CourseClass do
       row :canvas_course_id
       row :professor_name
       row :professor_email
-      row :enrollments_loaded_at
       row :default_inscription
       row :created_at
       row :updated_at

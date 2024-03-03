@@ -15,27 +15,6 @@ RSpec.describe User, type: :model do
 
   describe 'Callbacks' do
     describe '#after_create_commit' do
-      describe '#create_students_from_enrollments' do
-        let!(:course_class) { create(:course_class) }
-        let(:user) { build(:user) }
-        let!(:course_class_enrollment) do
-          create(
-            :course_class_enrollment,
-            course_class: course_class,
-            email: user.email
-          )
-        end
-
-        it 'creates a student in the enrollment course class' do
-          expect { user.save }.to change { Student.count }.by(1)
-        end
-
-        it 'does not create a student if the user is already a student' do
-          create(:student, user: user, course_class: course_class_enrollment.course_class)
-          expect { user.save }.not_to change { Student.count }.from(1)
-        end
-      end
-
       describe '#enroll_on_default_course' do
         let!(:course_class) { create(:course_class, default_inscription: true) }
         let(:user) { build(:user) }

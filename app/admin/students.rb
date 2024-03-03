@@ -3,14 +3,12 @@ ActiveAdmin.register Student do
 
   permit_params :user_id,
                 :course_class_id,
-                :status,
-                :canvas_enrollment_id
+                :status
 
   form do |f|
     f.inputs do
       f.input :user
       f.input :status
-      f.input :canvas_enrollment_id
     end
     f.actions
   end

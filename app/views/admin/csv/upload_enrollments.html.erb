@@ -1,7 +1,0 @@
-<%= form_for(:csv,
-    url: {action: 'load_enrollments'},
-    html: { multipart: true },
-  ) do |f| %>
-  <%= f.file_field :file %>
-  <%= f.submit 'Subir CSV' %>
-<% end %>

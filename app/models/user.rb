@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  after_create_commit :create_students_from_enrollments
   after_create_commit :enroll_on_default_course
 
   devise :database_authenticatable, :registerable,
@@ -69,12 +68,6 @@ class User < ApplicationRecord
   enum status: { active: 0, inactive: 1 }
 
   private
-
-  def create_students_from_enrollments
-    CourseClassEnrollment.search_by_user(self).each do |enrollment|
-      enrollment.course_class.students.create(user: self)
-    end
-  end
 
   def enroll_on_default_course
     CourseClass.default_inscription.each do |course_class|
