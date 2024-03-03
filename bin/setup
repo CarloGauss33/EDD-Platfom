@@ -19,9 +19,5 @@ docker-compose up -d
 # Set up database
 bin/rails db:setup
 
-# Setup webhooks
-bin/rake telegram:bot:set_webhook RAILS_ENV=production
-
 # Add binstubs to PATH via export PATH=".git/safe/../../bin:$PATH" in ~/.zshenv
 mkdir -p .git/safe
-
