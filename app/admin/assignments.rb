@@ -17,16 +17,6 @@ ActiveAdmin.register Assignment do
                 :end_date,
                 assignment_questions_attributes: [:id, :question_type, :title, :description, :_destroy]
 
-  member_action :sync_submitted_responses, method: :post do
-    SyncSubmittedResponsesForAssignmentJob.perform_now(resource.id)
-
-    redirect_to resource_path, notice: "Assignment responses have been synced"
-  end
-
-  action_item :sync_submitted_responses, only: :show do
-    link_to "Sync Submitted Responses", sync_submitted_responses_admin_assignment_path(assignment), method: :post
-  end
-
   scope :with_active_semester, default: true
   scope :all
 
