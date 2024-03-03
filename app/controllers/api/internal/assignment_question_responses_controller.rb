@@ -3,25 +3,27 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
   before_action :check_assignment_enabled, only: %i[create update]
 
   def create
-    Rails.logger.info "assignment_response: #{assignment_response.inspect}"
-    if assignment_question_response.present?
-      assignment_question_response.update!(assignment_question_response_params)
-      respond_with assignment_question_response.reload
-    else
-      respond_with assignment_response.assignment_question_responses.create!(
-        assignment_question_response_params.merge(
-          assignment_question: assignment_question
-        )
-      )
-    end
+    return respond_with_updated_response if assignment_question_response.present?
+
+    respond_with create_assignment_question_response
   end
 
   def update
+    respond_with_updated_response
+  end
+
+  private
+
+  def respond_with_updated_response
     assignment_question_response.update!(assignment_question_response_params)
     respond_with assignment_question_response.reload
   end
 
-  private
+  def create_assignment_question_response
+    assignment_response.assignment_question_responses.create!(
+      assignment_question_response_params.merge(assignment_question: assignment_question)
+    )
+  end
 
   def assignment_question_response
     @assignment_question_response ||= assignment_response
@@ -42,11 +44,15 @@ class Api::Internal::AssignmentQuestionResponsesController < Api::Internal::Base
   end
 
   def assignment_response
-    @assignment_response ||= student.assignment_responses.find_by!(assignment_id: assignment.id)
+    @assignment_response ||= student.assignment_responses.find_by!(
+      assignment_id: assignment.id
+    )
   end
 
   def assignment_question
-    @assignment_question ||= assignment.assignment_questions.find_by!(id: params[:assignment_question_id])
+    @assignment_question ||= assignment.assignment_questions.find_by!(
+      id: params[:assignment_question_id]
+    )
   end
 
   def assignment_question_response_params
