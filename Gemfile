@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem 'aasm'
 gem 'activeadmin', '~> 2.9'
 gem 'activeadmin_addons'
 gem 'activerecord-import'

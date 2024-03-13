@@ -1,9 +1,13 @@
 class CodeHomeworkRun < ApplicationRecord
   TIMEOUT_BETWEEN_RUNS = 5.minutes
+  include AASM
+  after_create_commit :execute_grader_run
+
   belongs_to :code_homework
   belongs_to :student
 
   enum status: { pending: 0, running: 1, success: 2, failure: 3 }
+  delegate :name, :repository_prefix, to: :code_homework
 
   scope :by_student, ->(student) { where(student: student) }
 
@@ -16,6 +20,29 @@ class CodeHomeworkRun < ApplicationRecord
     return true if last_run.nil?
 
     last_run.created_at < TIMEOUT_BETWEEN_RUNS.ago
+  end
+
+  aasm column: :status, enum: true do
+    state :pending, initial: true
+    state :running, :success, :failure
+
+    event :run do
+      transitions from: :pending, to: :running
+    end
+
+    event :success do
+      transitions from: :running, to: :success
+    end
+
+    event :fail do
+      transitions from: :running, to: :failure
+    end
+  end
+
+  private
+
+  def execute_grader_run
+    CodeHomework::ExecuteGraderRunJob.perform_later(self)
   end
 end
 

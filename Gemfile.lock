@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.5.0)
+      concurrent-ruby (~> 1.0)
     actioncable (6.1.7.4)
       actionpack (= 6.1.7.4)
       activesupport (= 6.1.7.4)
@@ -564,6 +566,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  aasm
   activeadmin (~> 2.9)
   activeadmin_addons
   activerecord-import
