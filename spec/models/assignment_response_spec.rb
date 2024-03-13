@@ -33,22 +33,6 @@ RSpec.describe AssignmentResponse, type: :model do
   end
 
   describe 'Methods' do
-    describe '#score' do
-      let!(:assignment_response) { create(:assignment_response) }
-      let!(:assignment_question_responses) do
-        create_list(
-          :assignment_question_response,
-          2,
-          assignment_response: assignment_response,
-          score: 2
-        )
-      end
-
-      it 'return score' do
-        expect(assignment_response.score).to eq(4)
-      end
-    end
-
     describe '#last_updated_at' do
       let(:assignment_response) { create(:assignment_response) }
       let!(:assignment_question_response) do

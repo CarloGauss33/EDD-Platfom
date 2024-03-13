@@ -29,10 +29,6 @@ class AssignmentResponse < ApplicationRecord
     by_assignment(assignment_id).by_student(student_id).first
   end
 
-  def score
-    assignment_question_responses.sum(&:score)
-  end
-
   def last_updated_at
     assignment_question_responses.maximum(:updated_at)
   end
