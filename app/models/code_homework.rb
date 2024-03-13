@@ -1,5 +1,6 @@
 class CodeHomework < ApplicationRecord
   belongs_to :course
+  has_many :code_homework_runs, dependent: :destroy
 
   scope :inactive, -> { where('end_date < ?', Time.zone.now) }
   scope :active, -> { where('end_date >= ?', Time.zone.now) }
