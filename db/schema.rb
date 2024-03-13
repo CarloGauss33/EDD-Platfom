@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_03_205402) do
+ActiveRecord::Schema.define(version: 2024_03_13_021406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,21 @@ ActiveRecord::Schema.define(version: 2024_03_03_205402) do
     t.index ["course_id"], name: "index_assignments_on_course_id"
   end
 
+  create_table "code_homeworks", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.string "name"
+    t.string "homework_url"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "repository_prefix"
+    t.string "template_repository_url"
+    t.string "solution_repository_url"
+    t.string "testcases_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_code_homeworks_on_course_id"
+  end
+
   create_table "course_classes", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.integer "section"
@@ -167,6 +182,7 @@ ActiveRecord::Schema.define(version: 2024_03_03_205402) do
   add_foreign_key "assignment_responses", "assignments"
   add_foreign_key "assignment_responses", "students"
   add_foreign_key "assignments", "courses"
+  add_foreign_key "code_homeworks", "courses"
   add_foreign_key "course_classes", "courses"
   add_foreign_key "oauth_providers", "users"
   add_foreign_key "students", "course_classes"
