@@ -17,6 +17,9 @@ Rails.application.routes.draw do
           end
         end
       end
+      resources :code_homeworks, only: [] do
+        resources :code_homework_runs, only: [:create]
+      end
     end
   end
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -24,6 +27,9 @@ Rails.application.routes.draw do
   resources :assignments, only: [:index, :show] do
     resource :assignment_responses, only: [:show, :update]
   end
+
+  resources :code_homeworks, only: [:index, :show]
+
   resources :courses, only: [:index, :show] do
     resources :students, only: [:new]
   end
@@ -31,5 +37,5 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#show'
   get "/404", to: "errors#not_found", via: :all, as: :not_found
   get "/500", to: "errors#internal_server_error", via: :all, as: :internal_server_error
-  root to: 'assignments#index'
+  root to: 'home#index'
 end

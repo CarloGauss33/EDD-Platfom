@@ -1,0 +1,11 @@
+<div class="container mx-auto pt py-8 px-6">
+  <code-homeworks-list
+    class="mb-8"
+    :code-homeworks="<%= serialize_resource(@code_homeworks) %>"
+    :user="<%= serialize_resource(current_user) %>"
+  ></code-homeworks-list>
+  <assignments-list
+    :assignments="<%= serialize_resource(@assignments) %>"
+    :user="<%= serialize_resource(current_user) %>"
+  ></assignments-list>
+</div>
