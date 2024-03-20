@@ -8,6 +8,10 @@ import './css/application.css';
 
 import AssignmentForm from './components/assignment-form.vue';
 import AssignmentsList from './components/assignments-list.vue';
+
+import CodeHomeworksList from './components/code-homeworks-list.vue';
+import CodeHomeworksShow from './components/code-homeworks-show.vue';
+
 import AssignmentShow from './components/assignment-show.vue';
 import StudentForm from './components/student-form.vue';
 import UserProfile from './components/user-profile.vue';
@@ -46,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
       AssignmentForm,
       AssignmentsList,
       AssignmentShow,
+      CodeHomeworksList,
+      CodeHomeworksShow,
       StudentForm,
       UserProfile,
     },
