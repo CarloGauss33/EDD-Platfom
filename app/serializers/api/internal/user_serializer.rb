@@ -11,6 +11,6 @@ class Api::Internal::UserSerializer < ActiveModel::Serializer
     :university_id,
     :rut,
     :names,
-    :last_names,
+    :last_names
   )
 end
