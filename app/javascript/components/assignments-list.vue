@@ -1,20 +1,7 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import type { Assignment, AssignmentResponse } from 'api/assignment-response';
 import AssignmentItem from 'components/assignment-item.vue';
-
-type User = {
-    id?: number;
-    firstName?: string;
-    fullName?: string;
-    username?: string;
-    email?: string;
-    githubUsername?: string;
-    universityId?: string;
-    rut?: string;
-    names?: string;
-    lastNames?: string;
-};
+import type { User } from 'types/user';
 
 interface Props {
   assignments: Assignment[];
